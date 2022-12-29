@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { trpc } from "../utils/trpc";
@@ -12,12 +13,17 @@ import Card from "../components/card";
 import StaticImageCard from "../components/staticImageCard";
 import AnimatedImageCard from "../components/animatedImageCard";
 import { useRef } from "react";
+import NavItem from "../components/navItem";
+import SignedInNavItem from "../components/SignedInNavItem";
 
 const Home: NextPage = () => {
   const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
 
   const quickstartSection = useRef(null);
-  const acceptedFormatsSection = useRef(null);
+  const trainingSection = useRef(null);
+  const usageSection = useRef(null);
+
+  const { data: sessionData } = useSession();
 
   return (
     <>
@@ -27,7 +33,30 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header>
-        <NavBar />
+        <NavBar>
+          <>
+            <NavItem text="Home" onClick={() => window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            })} />
+            <NavItem text="Quickstart" onClick={() => window.scrollTo({
+              top: getAbsoluteTop(quickstartSection.current),
+              behavior: "smooth",
+            })} />
+            <NavItem text="Training" onClick={() => window.scrollTo({
+              top: getAbsoluteTop(trainingSection.current),
+              behavior: "smooth",
+            })} />
+            <NavItem text="Usage" onClick={() => window.scrollTo({
+              top: getAbsoluteTop(usageSection.current),
+              behavior: "smooth",
+            })} />
+            {sessionData ?
+              <SignedInNavItem sessionData={sessionData} /> :
+              <NavItem text="Sign in" onClick={() => signIn()} />
+            }
+          </>
+        </NavBar>
       </header>
       <main className="flex min-h-screen flex-col bg-neutral-900">
         <Jumbotron onButtonClick={() => window.scrollTo({
@@ -45,7 +74,8 @@ const Home: NextPage = () => {
               text="We support sign-in with GitHub, GitLab or Bitbucket"
               imageSrc="/images/source-control.svg"
               imageAlt="GitHub, GitLab and Bitbucket logos"
-              buttonText="Get started"
+              buttonText={sessionData ? "Already signed in" : "Register"}
+              buttonDisabled={!!sessionData}
               buttonOnClick={() => signIn()}
             />
           </div>
@@ -59,7 +89,7 @@ const Home: NextPage = () => {
               frameDelay={500}
               buttonText="See supported formats"
               buttonOnClick={() => window.scrollTo({
-                top: getAbsoluteTop(acceptedFormatsSection.current),
+                top: getAbsoluteTop(trainingSection.current),
                 behavior: "smooth"
               })} />
           </div>
@@ -74,9 +104,33 @@ const Home: NextPage = () => {
               buttonText="Read the docs" />
           </div>
         </section>
-        <section className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover bg-neutral-800 rounded-lg grid lg:grid-cols-2 md:grid-cols-1 gap-4">
+        <section className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover bg-neutral-800 rounded-lg grid lg:grid-cols-4 md:grid-cols-1 gap-4">
+          <div className="lg:col-span-4 md:col-span-1">
+            <h2 ref={trainingSection} className="text-xl text-white mb-4">Training</h2>
+            <hr className="w-40 mx-auto border-t-2 border-gray-400 mt-6 mb-6" />
+          </div>
+          <div className="col-span-1">
+
+          </div>
+          <div className="col-span-1">
+            <Image alt="" src="/images/training-data.png" width={800} height={100} />
+          </div>
+          <div className="col-span-1 text-left text-white pl-5">
+            <p className="font-bold mb-3">
+              Provide your training data to Classr as a 2-column CSV file.
+            </p>
+            <p>
+              This file must have a &quot;label&quot; column containing class labels and a &quot;document&quot; column
+              containing documents. A maximum file size of 4MB is supported for training your microclassifier.
+            </p>
+          </div>
+          <div className="col-span-1">
+
+          </div>
+        </section>
+        <section className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover rounded-lg grid lg:grid-cols-2 md:grid-cols-1 gap-4">
           <div className="lg:col-span-2 md:col-span-1">
-            <h2 ref={acceptedFormatsSection} className="text-xl text-white mb-4">Accepted Formats</h2>
+            <h2 ref={usageSection} className="text-xl text-white mb-4">Usage</h2>
             <hr className="w-40 mx-auto border-t-2 border-gray-400 mt-6 mb-6" />
           </div>
           <div className="col-span-1">

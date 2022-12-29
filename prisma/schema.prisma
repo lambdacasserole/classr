@@ -50,11 +50,16 @@ model Session {
 }
 
 model Classifier {
-  id            String    @id @default(cuid())
-  name          String
-  description   String
-  userId        String
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              String    @id @default(cuid())
+  name            String
+  description     String
+  macroF1Score    Int
+  weightedF1Score Int
+  overallAccuracy Int
+  support         Json
+  classifier      Json
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {

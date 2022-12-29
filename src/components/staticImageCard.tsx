@@ -18,9 +18,11 @@ const StaticImageCard: React.FC<StaticImageCardProps> = ({
     buttonText,
     buttonHref,
     buttonOnClick,
+    buttonDisabled,
 }: StaticImageCardProps) => {
+    console.log('!!', buttonDisabled);
     return (
-        <Card title={title} text={text} buttonText={buttonText} buttonHref={buttonHref} buttonOnClick={buttonOnClick}>
+        <Card buttonDisabled={buttonDisabled} title={title} text={text} buttonText={buttonText} buttonHref={buttonHref} buttonOnClick={buttonOnClick}>
             {imageSrc && imageAlt ?
                 <img src={imageSrc} alt={imageAlt} />
                 : <></>}

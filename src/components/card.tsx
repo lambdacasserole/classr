@@ -8,6 +8,7 @@ export interface CardProps {
   buttonText: string;
   buttonHref?: string;
   buttonOnClick?: MouseEventHandler<HTMLButtonElement>;
+  buttonDisabled?: boolean;
   children?: JSX.Element;
 }
 
@@ -15,7 +16,15 @@ export interface CardProps {
  *
  * @returns
  */
-const Card: React.FC<CardProps> = ({ title, text, buttonText, buttonHref, buttonOnClick, children }: CardProps) => {
+const Card: React.FC<CardProps> = ({
+  title,
+  text,
+  buttonText,
+  buttonHref,
+  buttonOnClick,
+  buttonDisabled,
+  children,
+}: CardProps) => {
   return (
     <div className="flex justify-center">
       <div className="text-white max-w-sm">
@@ -26,8 +35,8 @@ const Card: React.FC<CardProps> = ({ title, text, buttonText, buttonHref, button
             {text}
           </p>
           {buttonOnClick ?
-            <ActionButton text={buttonText} onClick={buttonOnClick} />
-            : <LinkButton text={buttonText} href={buttonHref ?? '#!'} />}
+            <ActionButton disabled={buttonDisabled} text={buttonText} onClick={buttonOnClick} />
+            : <LinkButton disabled={buttonDisabled} text={buttonText} href={buttonHref ?? '#!'} />}
         </div>
       </div>
     </div>

@@ -1,3 +1,17 @@
+/* Tailwind */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* Additional fonts */
+@import url('../../public/fonts/comfortaa/stylesheet.css');
+
+
+/* Headings */
+
+h2.text-xl {
+    font-family: 'comfortaaregular';
+    font-size: 24pt;
+}

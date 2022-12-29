@@ -1,11 +1,15 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useRef } from "react";
 
+export interface NavBarProps {
+  children: JSX.Element,
+}
+
 /**
  *
  * @returns
  */
-const NavBar: React.FC = () => {
+const NavBar: React.FC<NavBarProps> = ({ children }: NavBarProps) => {
 
   // Transform
   const navRef = useRef<HTMLElement>(null);
@@ -37,7 +41,7 @@ const NavBar: React.FC = () => {
   }, []); // Empty dependency array. Will only run on initialization.
 
   return (
-    <nav ref={navRef} className={`border-gray-200 px-2 sm:px-4 py-2.5 fixed left-0 right-0 top-0 z-10`} style={{
+    <nav ref={navRef} className="px-2 sm:px-4 py-2.5 fixed left-0 right-0 top-0 z-10" style={{
       transition: 'background-color 0.25s',
     }}>
       <div className="container flex flex-wrap items-center justify-between mx-auto">
@@ -50,21 +54,7 @@ const NavBar: React.FC = () => {
         </button>
         <div className="hidden w-full md:block md:w-auto bg-transparent" id="navbar-default">
           <ul className="flex flex-col p-4 mt-4 border border-transparent rounded-lg bg-transparent md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
-            <li>
-              <a href="#" className="block py-2 pl-3 pr-4 text-white bg-transparent rounded md:bg-transparent md:text-red-700 md:p-0" aria-current="page">Home</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 pl-3 pr-4 text-neutral-400 rounded hover:bg-neutral-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 pl-3 pr-4 text-neutral-400 rounded hover:bg-neutral-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 pl-3 pr-4 text-neutral-400 rounded hover:bg-neutral-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 pl-3 pr-4 text-neutral-400 rounded hover:bg-neutral-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sign out</a>
-            </li>
+            {children}
           </ul>
         </div>
       </div>

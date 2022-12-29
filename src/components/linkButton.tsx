@@ -1,14 +1,15 @@
 
 export interface LinkButtonProps {
   text: string;
+  disabled?: boolean;
   href: string;
 }
 
-const LinkButton: React.FC<LinkButtonProps> = ({ text, href }: LinkButtonProps) => {
+const LinkButton: React.FC<LinkButtonProps> = ({ text, disabled, href }: LinkButtonProps) => {
   return (
     <a
-      className="inline-block px-7 py-3 mb-1 border-2 border-gray-200 text-gray-200 font-medium text-sm leading-snug uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
-      href={href}
+      className={`py-2.5 px-5 mr-2 mb-2 text-sm font-medium ${disabled ? 'text-neutral-500 border-neutral-500' : 'text-neutral-100 border-neutral-100'} focus:outline-none rounded-lg border focus:z-10`}
+      href={disabled ? 'javascript:void' : href}
       role="button">{text}</a>
   );
 }
