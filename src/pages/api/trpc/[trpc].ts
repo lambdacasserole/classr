@@ -11,9 +11,16 @@ export default createNextApiHandler({
   onError:
     env.NODE_ENV === "development"
       ? ({ path, error }) => {
-          console.error(`❌ tRPC failed on ${path}: ${error}`);
-        }
+        console.error(`❌ tRPC failed on ${path}: ${error}`);
+      }
       : undefined,
 });
 
-export const config = { api: { bodyParser: { sizeLimit: '4mb' } } };
+// Ensure that we can upload up to 4MB of training data (1MB is default).
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '4mb',
+    },
+  },
+};
