@@ -51,13 +51,16 @@ model Session {
 
 model Classifier {
   id              String    @id @default(cuid())
+  uuid            String    @unique
   name            String
   description     String
-  macroF1Score    Int
-  weightedF1Score Int
-  overallAccuracy Int
+  precision       Float
+  recall          Float
+  f1Score         Float
+  overallAccuracy Float
   support         Json
   classifier      Json
+  confusionMatrix Json
   userId          String
   user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

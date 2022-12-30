@@ -29,10 +29,10 @@ const AnimatedImageCard: React.FC<AnimatedImageCardProps> = ({
     frameDelay,
     buttonText,
     buttonHref,
-    buttonOnClick,
+    onButtonClick,
 }: AnimatedImageCardProps) => {
     return (
-        <Card title={title} text={text} buttonText={buttonText} buttonHref={buttonHref} buttonOnClick={buttonOnClick}>
+        <Card title={title} text={text} buttonText={buttonText} buttonHref={buttonHref} onButtonClick={onButtonClick}>
             <AnimatedImage baseUrl={baseUrl} imageAlt={imageAlt} frameCount={frameCount} frameDelay={frameDelay} />
         </Card>
     );

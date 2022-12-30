@@ -76,7 +76,7 @@ const Home: NextPage = () => {
               imageAlt="GitHub, GitLab and Bitbucket logos"
               buttonText={sessionData ? "Already signed in" : "Register"}
               buttonDisabled={!!sessionData}
-              buttonOnClick={() => signIn()}
+              onButtonClick={() => signIn()}
             />
           </div>
           <div className="col-span-1">
@@ -88,7 +88,7 @@ const Home: NextPage = () => {
               frameCount={10}
               frameDelay={500}
               buttonText="See supported formats"
-              buttonOnClick={() => window.scrollTo({
+              onButtonClick={() => window.scrollTo({
                 top: getAbsoluteTop(trainingSection.current),
                 behavior: "smooth"
               })} />
