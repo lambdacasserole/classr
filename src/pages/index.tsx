@@ -5,7 +5,7 @@
  * @author Saul Johnson <saul.a.johnson@gmail.com>
  */
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -21,6 +21,8 @@ import AnimatedImageCard from "../components/animatedImageCard";
 import NavItem from "../components/navItem";
 import SignedInNavItem from "../components/signedInNavItem";
 import Favicon from "../components/favicon";
+import ActionButton from "../components/actionButton";
+import LinkButton from "../components/linkButton";
 
 
 /**
@@ -29,12 +31,14 @@ import Favicon from "../components/favicon";
 const Home: NextPage = () => {
 
   // Maintain these references to allow smooth scrolling to sections.
-  const quickstartSection = useRef(null);
-  const trainingSection = useRef(null);
-  const usageSection = useRef(null);
+  const [navbarHeight, setNavbarHeight] = useState(0);
+  const quickstartSection = useRef<HTMLElement>(null);
+  const trainingSection = useRef<HTMLElement>(null);
+  const usageSection = useRef<HTMLElement>(null);
 
   const { data: sessionData } = useSession();
 
+  console.log(navbarHeight);
   return (
     <>
       <Head>
@@ -43,22 +47,22 @@ const Home: NextPage = () => {
         <Favicon />
       </Head>
       <header>
-        <NavBar>
+        <NavBar onScrollListenerRegistered={(offsetHeight) => setNavbarHeight(offsetHeight)}>
           <>
             <NavItem text="Home" onClick={() => window.scrollTo({
               top: 0,
               behavior: "smooth",
             })} />
             <NavItem text="Quickstart" onClick={() => window.scrollTo({
-              top: getAbsoluteTop(quickstartSection.current),
+              top: getAbsoluteTop(quickstartSection.current) - navbarHeight,
               behavior: "smooth",
             })} />
             <NavItem text="Training" onClick={() => window.scrollTo({
-              top: getAbsoluteTop(trainingSection.current),
+              top: getAbsoluteTop(trainingSection.current) - navbarHeight,
               behavior: "smooth",
             })} />
             <NavItem text="Usage" onClick={() => window.scrollTo({
-              top: getAbsoluteTop(usageSection.current),
+              top: getAbsoluteTop(usageSection.current) - navbarHeight,
               behavior: "smooth",
             })} />
             {sessionData ?
@@ -70,12 +74,14 @@ const Home: NextPage = () => {
       </header>
       <main className="flex min-h-screen flex-col bg-neutral-900">
         <Jumbotron onButtonClick={() => window.scrollTo({
-          top: getAbsoluteTop(quickstartSection.current),
+          top: getAbsoluteTop(quickstartSection.current) - navbarHeight,
           behavior: "smooth"
         })} />
-        <section className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover rounded-lg grid lg:grid-cols-3 md:grid-cols-1 gap-4">
+        <section
+          ref={quickstartSection}
+          className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover rounded-lg grid lg:grid-cols-3 md:grid-cols-1 gap-4">
           <div className="lg:col-span-3 md:col-span-1">
-            <h2 ref={quickstartSection} className="text-xl text-white mb-4">Quickstart</h2>
+            <h2 className="text-xl text-white mb-4">Quickstart</h2>
             <hr className="w-40 mx-auto border-t-2 border-gray-400 mt-6 mb-6" />
           </div>
           <div className="col-span-1">
@@ -114,14 +120,14 @@ const Home: NextPage = () => {
               buttonText="Read the docs" />
           </div>
         </section>
-        <section className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover bg-neutral-800 rounded-lg grid lg:grid-cols-4 md:grid-cols-1 gap-4">
+        <section
+          ref={trainingSection}
+          className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover bg-neutral-800 rounded-lg grid lg:grid-cols-4 md:grid-cols-1 gap-4">
           <div className="lg:col-span-4 md:col-span-1">
-            <h2 ref={trainingSection} className="text-xl text-white mb-4">Training</h2>
+            <h2 className="text-xl text-white mb-4">Training</h2>
             <hr className="w-40 mx-auto border-t-2 border-gray-400 mt-6 mb-6" />
           </div>
-          <div className="col-span-1">
-
-          </div>
+          <div className="col-span-1"></div>
           <div className="col-span-1">
             <Image alt="" src="/images/training-data.png" width={800} height={100} />
           </div>
@@ -129,18 +135,23 @@ const Home: NextPage = () => {
             <p className="font-bold mb-3">
               Provide your training data to Classr as a 2-column CSV file.
             </p>
-            <p>
+            <p className="mb-6">
               This file must have a &quot;label&quot; column containing class labels and a &quot;document&quot; column
               containing documents. A maximum file size of 4MB is supported for training your microclassifier.
             </p>
+            <p>
+              {sessionData ?
+                <LinkButton text="Train a microclassifier now" href="/app" /> :
+                <ActionButton text="Sign in to train a microclassifier" onClick={() => signIn()} />}
+            </p>
           </div>
-          <div className="col-span-1">
-
-          </div>
+          <div className="col-span-1"></div>
         </section>
-        <section className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover rounded-lg grid lg:grid-cols-2 md:grid-cols-1 gap-4">
+        <section
+          ref={usageSection}
+          className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover rounded-lg grid lg:grid-cols-2 md:grid-cols-1 gap-4">
           <div className="lg:col-span-2 md:col-span-1">
-            <h2 ref={usageSection} className="text-xl text-white mb-4">Usage</h2>
+            <h2 className="text-xl text-white mb-4">Usage</h2>
             <hr className="w-40 mx-auto border-t-2 border-gray-400 mt-6 mb-6" />
           </div>
           <div className="col-span-1">

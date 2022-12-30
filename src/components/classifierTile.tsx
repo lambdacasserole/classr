@@ -1,8 +1,10 @@
 import { Classifier } from "@prisma/client";
 
 import { MouseEventHandler, useEffect, useState } from "react";
+import { ConfusionMatrix } from "../utils/ml";
 
 import { trpc } from "../utils/trpc";
+import ConfusionMatrixDisplay from "./confusionMatrixDisplay";
 
 
 export interface classifierTileProps {
@@ -26,6 +28,7 @@ const ClassifierTile: React.FC<classifierTileProps> = ({ classifier }: classifie
             <textarea onBlur={(e) => setTestDocument(e.target.value)}></textarea>
             <button onClick={() => q.refetch()}>Test</button>
             Result: {q.data}
+            <ConfusionMatrixDisplay confusionMatrix={classifier.confusionMatrix as ConfusionMatrix} />
         </div>
     );
 };
