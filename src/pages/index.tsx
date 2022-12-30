@@ -36,9 +36,9 @@ const Home: NextPage = () => {
   const trainingSection = useRef<HTMLElement>(null);
   const usageSection = useRef<HTMLElement>(null);
 
+
   const { data: sessionData } = useSession();
 
-  console.log(navbarHeight);
   return (
     <>
       <Head>

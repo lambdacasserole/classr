@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { RefObject, useEffect, useImperativeHandle, useRef } from "react";
 
 export interface NavBarProps {
-  onScrollListenerRegistered: (offsetHeight: number) => void,
+  onScrollListenerRegistered?: (offsetHeight: number) => void,
   children: JSX.Element,
 }
 
@@ -36,7 +36,9 @@ const NavBar: React.FC<NavBarProps> = ({ onScrollListenerRegistered, children }:
 
     // Register handler on page scroll.
     window.addEventListener('scroll', handleScroll);
-    onScrollListenerRegistered(navbar?.offsetHeight ?? 0);
+    if (onScrollListenerRegistered) {
+      onScrollListenerRegistered(navbar?.offsetHeight ?? 0);
+    }
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
