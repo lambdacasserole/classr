@@ -6,10 +6,16 @@ declare module "bayes" {
         constructor(options?: NaivebayesOptions);
         async learn(text: string, category: string);
         toJson(): string;
-        async categorize(text): Promise<string>;
+        async categorize(text: string): Promise<string>;
+        static fromJson(text: string): Naivebayes;
     }
 
-    function bayes(options?: NaivebayesOptions): Naivebayes;
+    type bayesFunctionType = {
+        fromJson(jsonStr: string): Naivebayes;
+        (options?: NaivebayesOptions): Naivebayes;
+    }
+
+    const bayes: bayesFunctionType;
 
     export default bayes;
 }

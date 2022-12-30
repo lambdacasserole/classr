@@ -77,16 +77,29 @@ function initializeConfusionMatrix(documents: Document[]): ConfusionMatrix {
     return confusionMatrix;
 }
 
+
+/**
+ * Computes the overall accuracy of a model from its confusion matrix.
+ *
+ * @param confusionMatrix the confusion matrix
+ * @returns a number indicating the overall accuracy of the model
+ */
 function computeOverallAccuracy(confusionMatrix: ConfusionMatrix) {
+
+    // Compute count of correct outputs (true label and actual label are the same).
     const correct = Object.keys(confusionMatrix)
         .map((label) => {
             const column = confusionMatrix[label];
             return column ? (column[label] ?? 0) : 0;
         }).reduce((a, b) => a + b, 0);
+
+    // Compute total outputs.
     const all = Object.values(confusionMatrix)
         .map((row) => Object.values(row))
         .flat()
         .reduce((a, b) => a + b, 0);
+
+    // Return correct outputs over total outputs.
     return correct / all;
 }
 
@@ -142,6 +155,33 @@ function computeSupport(confusionMatrix: ConfusionMatrix) {
 }
 
 export const classifierRouter = router({
+    list: protectedProcedure
+        .query(async ({ ctx }) => {
+            return ctx.prisma.classifier.findMany({
+                where: {
+                    userId: ctx.session.user.id,
+                },
+            });
+        }),
+    classify: protectedProcedure
+        .input(
+            z.object({
+                classifierUuid: z.string(),
+                document: z.string(),
+            }),
+        )
+        .query(async ({
+            ctx,
+            input: { classifierUuid, document },
+        }) => {
+            const classifierRecord = await ctx.prisma.classifier.findFirstOrThrow({
+                where: {
+                    uuid: classifierUuid,
+                }
+            });
+            const classifier = bayes.fromJson(JSON.stringify(classifierRecord.classifier));
+            return classifier.categorize(document);
+        }),
     train: protectedProcedure
         .input(
             z.object({
