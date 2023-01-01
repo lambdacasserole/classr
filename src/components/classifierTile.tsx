@@ -1,6 +1,13 @@
-import type { Classifier } from "@prisma/client";
+/**
+ * Contains the {@link ClassifierTile} component and its props interface.
+ *
+ * @since 01/01/2022
+ * @author Saul Johnson <saul.a.johnson@gmail.com>
+ */
 
 import { useRef, useState } from "react";
+
+import type { Classifier } from "@prisma/client";
 
 import { trpc } from "../utils/trpc";
 import type { ConfusionMatrix } from "../utils/ml";
@@ -9,34 +16,55 @@ import ActionButton from "./actionButton";
 import ConfusionMatrixDisplay from "./confusionMatrixDisplay";
 
 
+/**
+ * Props for the {@link ClassifierTile} component.
+ */
 export interface classifierTileProps {
+
+    /**
+     * The classifier to wrap.
+     */
     classifier: Classifier;
 }
 
 
+/**
+ * Represents a classifier tile component.
+ */
 const ClassifierTile: React.FC<classifierTileProps> = ({ classifier }: classifierTileProps) => {
 
-    const [testDocument, setTestDocument] = useState('');
-    const [copyButtonWarm, setCopyButtonWarm] = useState(false);
+    // Retain this handle to the tile root component to hide it right away on delete.
     const rootComponentRef = useRef<HTMLDivElement>(null);
-    const testQuery = trpc.classifier.classify.useQuery({
+
+    // Hold testing document in state.
+    const [testDocument, setTestDocument] = useState('');
+
+    // Hold buttom warm states.
+    const [isCopyButtonWarm, setIsCopyButtonWarm] = useState(false);
+    const [isDeleteButtonWarm, setIsDeleteButtonWarm] = useState(false);
+
+    // Queries and mutations (tRPC).
+    const testQuery = trpc.classifier.classify.useQuery({ // Query for test classifier input.
         classifierUuid: classifier.uuid,
         document: testDocument,
     }, { enabled: false });
-    const deleteQuery = trpc.classifier.delete.useMutation({
-        onSuccess: () => {
+    const deleteMutation = trpc.classifier.delete.useMutation({ // Mutation for classifier deletion.
+        onMutate: () => {
             if (rootComponentRef.current) {
-                rootComponentRef.current.style.display = 'none';
+                rootComponentRef.current.style.display = 'none'; // Hide tile immediately.
             }
         }
     });
 
     return (
-        <div ref={rootComponentRef} className="p-6 mb-6 rounded-lg bg-neutral-800 text-white grid lg:grid-cols-2 md:grid-cols-1 text-left border border-neutral-700">
+        <div
+            ref={rootComponentRef}
+            className="p-6 mb-6 rounded-lg bg-neutral-800 text-white grid lg:grid-cols-2 md:grid-cols-1 text-left border border-neutral-700 position-relative">
             <div className="md:col-span-1 lg:col-span-2 mb-6">
                 <h2 className="text-xl">{classifier.name.length ? classifier.name : classifier.uuid}</h2>
             </div>
             <div className="lg:pr-6 col-span-1">
+                {/* Name and description */}
                 <label htmlFor="nameField" className="form-label inline-block mb-2 text-white">
                     Name
                 </label>
@@ -47,6 +75,7 @@ const ClassifierTile: React.FC<classifierTileProps> = ({ classifier }: classifie
                 <textarea name="descriptionField" className="form-control block w-full px-3 py-1.5 text-base font-mono text-white bg-transparent bg-clip-padding border border-solid border-neutral-600 rounded transition ease-in-out m-0 mb-4 focus:outline-none" readOnly>
                     {classifier.description}
                 </textarea>
+                {/* Copy UUID box and button */}
                 <label htmlFor="uuidField" className="form-label block mb-2 text-white">
                     ID
                 </label>
@@ -57,12 +86,13 @@ const ClassifierTile: React.FC<classifierTileProps> = ({ classifier }: classifie
                         value={classifier.uuid}
                         className="form-control mr-6 flex-grow px-3 py-1.5 text-base text-white bg-transparent font-mono bg-clip-padding border border-solid border-neutral-600 rounded transition ease-in-out m-0 mb-4 focus:outline-none"
                         readOnly />
-                    <ActionButton text={copyButtonWarm ? 'Copied!' : 'Copy'} onClick={(e) => {
+                    <ActionButton text={isCopyButtonWarm ? 'Copied!' : 'Copy'} onClick={(e) => {
                         navigator.clipboard.writeText(classifier.uuid);
-                        setCopyButtonWarm(true);
-                        setTimeout(() => setCopyButtonWarm(false), 2000);
+                        setIsCopyButtonWarm(true);
+                        setTimeout(() => setIsCopyButtonWarm(false), 2000);
                     }} />
                 </div>
+                {/* Testing input box */}
                 <label htmlFor="trainingDataField" className="form-label block mb-2 text-white">
                     Testing input
                 </label>
@@ -78,11 +108,19 @@ const ClassifierTile: React.FC<classifierTileProps> = ({ classifier }: classifie
                 </p>
                 <p className="mt-3">
                     <ActionButton
-                        className="border-red-500 text-red-500 w-full"
-                        onClick={() => deleteQuery.mutate({ classifierUuid: classifier.uuid })}
-                        text="Delete classifier" />
+                        className={`${isDeleteButtonWarm ? 'border-neutral-900 text-neutral-900 bg-red-500' : 'border-red-500 text-red-500'} w-full`}
+                        onClick={() => {
+                            if (isDeleteButtonWarm) { // Delete button must be clicked twice.
+                                deleteMutation.mutate({ classifierUuid: classifier.uuid });
+                            } else {
+                                setIsDeleteButtonWarm(true); // Confirm delete, time out after 5s.
+                                setTimeout(() => setIsDeleteButtonWarm(false), 5000);
+                            }
+                        }}
+                        text={isDeleteButtonWarm ? "Really? Click again to confirm" : "Delete classifier"} />
                 </p>
             </div>
+            {/* Confusion matrix and performance information */}
             <div className="col-span-1 text-left overflow-scroll">
                 <h2 className="text-md">Confusion matrix</h2>
                 <ConfusionMatrixDisplay confusionMatrix={classifier.confusionMatrix as ConfusionMatrix} />

@@ -83,7 +83,7 @@ const Home: NextPage = () => {
         })} />
         <section
           ref={quickstartSection}
-          className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover rounded-lg grid lg:grid-cols-3 md:grid-cols-1 gap-4">
+          className="p-12 text-center relative overflow-hidden grid lg:grid-cols-3 md:grid-cols-1 gap-4">
           <div className="lg:col-span-3 md:col-span-1">
             <h2 className="text-xl text-white mb-4">Quickstart</h2>
             <hr className="w-40 mx-auto border-t-2 border-gray-400 mt-6 mb-6" />
@@ -121,12 +121,16 @@ const Home: NextPage = () => {
               imageAlt="Animation of a Classr logo flashing green and red from left to right"
               frameCount={2}
               frameDelay={500}
-              buttonText="Read the docs" />
+              buttonText="Read the docs"
+              onButtonClick={() => window.scrollTo({
+                top: getAbsoluteTop(usageSection.current) - navbarHeight,
+                behavior: "smooth"
+              })} />
           </div>
         </section>
         <section
           ref={trainingSection}
-          className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover bg-neutral-800 rounded-lg grid lg:grid-cols-4 md:grid-cols-1 gap-4">
+          className="p-12 text-center relative overflow-hidden bg-neutral-800 grid lg:grid-cols-4 md:grid-cols-1 gap-4">
           <div className="lg:col-span-4 md:col-span-1">
             <h2 className="text-xl text-white mb-4">Training</h2>
             <hr className="w-40 mx-auto border-t-2 border-gray-400 mt-6 mb-6" />
@@ -153,7 +157,7 @@ const Home: NextPage = () => {
         </section>
         <section
           ref={usageSection}
-          className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover rounded-lg grid lg:grid-cols-4 md:grid-cols-1 gap-4">
+          className="p-12 text-center relative overflow-hidden grid lg:grid-cols-4 md:grid-cols-1 gap-4">
           <div className="col-span-1"></div>
           <div className="lg:col-span-2 md:col-span-1">
             <h2 className="text-xl text-white mb-4">Usage</h2>
@@ -165,7 +169,7 @@ const Home: NextPage = () => {
           </div>
           <div className="col-span-1"></div>
           <div className="col-span-1"></div>
-          <div className="col-span-2 text-left">
+          <div className="lg:col-span-2 md:col-span-1 text-left">
             <h3 className="text-lg text-white mb-4">Get microclassifier info (GET)</h3>
             <pre className="text-mono overflow-scroll bg-neutral-800 text-white p-6 rounded">
 {"$ curl https://classr.dev/api/classifier/<classifier-uuid>"}
