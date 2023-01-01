@@ -23,6 +23,8 @@ export interface ActionButtonProps {
      */
     disabled?: boolean;
 
+    className?: string;
+
     /**
      * The event handler for when the action button is clicked.
      */
@@ -36,14 +38,15 @@ export interface ActionButtonProps {
 const ActionButton: React.FC<ActionButtonProps> = ({
     text,
     disabled,
+    className,
     onClick,
 }: ActionButtonProps) => {
     return (
         <button
             disabled={disabled}
-            className={'py-2.5 px-5 mr-2 mb-2 text-sm font-medium'
+            className={['py-2.5 px-5 mr-2 mb-2 text-sm font-medium'
                 + ` ${disabled ? 'text-neutral-500 border-neutral-500' : 'text-neutral-100 border-neutral-100'}`
-                + ' focus:outline-none rounded-lg border focus:z-10'}
+                + ' focus:outline-none rounded-lg border focus:z-10', className].join(' ')}
             onClick={onClick}>
             {text}
         </button>

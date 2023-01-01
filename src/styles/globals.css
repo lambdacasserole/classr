@@ -16,6 +16,10 @@ h2.text-xl {
     font-size: 24pt;
 }
 
+h3.text-lg {
+    font-family: 'comfortaabold';
+    font-size: 16pt;
+}
 
 .grid-item {
     /* border-bottom: 1px solid #ccc;

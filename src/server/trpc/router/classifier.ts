@@ -19,6 +19,8 @@ import {
 export const classifierRouter = router({
     list: protectedProcedure
         .query(async ({ ctx }) => {
+
+            // Return all classifiers for signed-in user.
             return ctx.prisma.classifier.findMany({
                 where: {
                     userId: ctx.session.user.id,
@@ -28,21 +30,42 @@ export const classifierRouter = router({
     classify: protectedProcedure
         .input(
             z.object({
-                classifierUuid: z.string(),
-                document: z.string(),
+                classifierUuid: z.string(), // Classifier UUID required.
+                document: z.string(), // Document to classify required.
             }),
         )
         .query(async ({
             ctx,
             input: { classifierUuid, document },
         }) => {
+
+            // Find requested classifier or throw an exception.
             const classifierRecord = await ctx.prisma.classifier.findFirstOrThrow({
                 where: {
                     uuid: classifierUuid,
-                }
+                },
             });
+
+            // Rehydrate model and return categorization result.
             const classifier = bayes.fromJson(JSON.stringify(classifierRecord.classifier));
             return classifier.categorize(document);
+        }),
+    delete: protectedProcedure
+        .input(
+            z.object({
+                classifierUuid: z.string(), // Classifier UUID required.
+            })
+        ).mutation(async ({
+            ctx,
+            input: { classifierUuid },
+        }) => {
+
+            // Delete classifier (restrict to current user only).
+            return ctx.prisma.classifier.deleteMany({
+                where: {
+                    AND: [{ uuid: classifierUuid }, { userId: ctx.session.user.id }]
+                }
+            });
         }),
     train: protectedProcedure
         .input(
@@ -60,8 +83,14 @@ export const classifierRouter = router({
             if (!csvData) {
                 throw new Error('CSV data is missing or corrupt.');
             }
+
+            // Translate base64-encoded CSV to document set.
             const documents = await base64EncodedCsvToDocuments(csvData);
+
+            // Initialize a fresh confusion matrix for this model.
             const confusionMatrix = initializeConfusionMatrix(documents);
+
+            // Test-train split (with default 80/20 split).
             const { test, train } = testTrainSplit(documents);
             const classifier = bayes();
             await Promise.all(train.map((document) => classifier.learn(document.document, document.label)));
@@ -87,16 +116,7 @@ export const classifierRouter = router({
                     confusionMatrix: confusionMatrix,
                     userId: ctx.session.user.id,
                 }
-            })
-            console.log(
-                computeMacroPrecision(confusionMatrix),
-                computeMacroRecall(confusionMatrix),
-                computeOverallAccuracy(confusionMatrix),
-                computeMacroF1Score(confusionMatrix),
-                computeSupport(confusionMatrix),
-            );
-            // console.log(await nb.categorize('Stressed out but deeply inspired by our CEO, working on myself!'));
-            // console.log(await nb.categorize('Just failed a job interview, seriously upset right now'));
+            });
         }),
 });
 

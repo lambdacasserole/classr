@@ -49,7 +49,7 @@ const NavBar: React.FC<NavBarProps> = ({ onScrollListenerRegistered, children }:
       transition: 'background-color 0.25s',
     }}>
       <div className="container flex flex-wrap items-center justify-between mx-auto">
-        <a href="https://classr.dev/" className="flex items-center">
+        <a href="/" className="flex items-center">
           <img src="/logo-nav.svg" className="h-6 mr-3 sm:h-9" alt="Classr Logo" />
         </a>
         <button data-collapse-toggle="navbar-default" type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-400 rounded-lg md:hidden bg-neutral-700 hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">

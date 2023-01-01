@@ -1,0 +1,54 @@
+const Footer: React.FC = () => {
+    return (
+        <footer
+            className="p-12 text-white relative overflow-hidden bg-neutral-800 grid lg:grid-cols-5 md:grid-cols-1 gap-4">
+            <div className="col-span-1"></div>
+            <div className="col-span-1 p-3">
+                <h3 className="text-lg mb-3">🔬 The Technical Stuff</h3>
+                <p className="text-neutral-400 text-sm mb-2">
+                    This application trains multinomial naive bayes classifiers behind the scenes on unigrams generated
+                    by splitting strings along space characters. Train/test split is 20/80 and Laplace smoothing is at 1.
+                </p>
+                <p className="text-neutral-400 text-sm">
+                    Any ML engineer with tell you that this is a very simple classifier with a lot of caveats. Use
+                    appropriately, and wield responsibly.
+                </p>
+            </div>
+            <div className="col-span-1 p-3">
+                <h3 className="text-lg mb-3">🤔 Why this project?</h3>
+                <p className="mb-2 text-sm">
+                    I (<a href="https://github.com/lambdacasserole">@lambdacasserole</a>) wanted to see what I could do
+                    working on something from scratch with the <a href="https://create.t3.gg/en/introduction">T3 stack</a> while
+                    sharpening my frontend skills in the process.
+                </p>
+                <p className="text-sm">
+                    Turns out, it&apos;s a super cool stack that you should definitely try out if you haven&apos;t already.
+                </p>
+                <p className="mt-2">
+                    <img src="/images/t3.svg" style={{ width: '32px', height: 'auto', display: 'inline-block' }} />
+                    <img src="/images/tailwind.svg" style={{ width: '32px', height: 'auto', display: 'inline-block' }} />
+                </p>
+            </div>
+            <div className="col-span-1 p-3">
+                <h3 className="text-lg mb-3">🚧 Limitations</h3>
+                <p className="text-neutral-400 text-sm">
+                    Classr does not support any of the following features yet:
+                </p>
+                <ul className="text-neutral-400 list-disc mt-2 text-sm">
+                    <li>Training on n-grams.</li>
+                    <li>Tokenization based on anything but splitting documents along spaces.</li>
+                    <li>Stopword removal.</li>
+                    <li>More advanced classifiers (SVMs, random forests etc.)</li>
+                </ul>
+            </div>
+            <div className="col-span-1"></div>
+            <div className="md:col-span-1 lg:col-span-5 opacity-50 text-center text-xs mt-6">
+                Made with curiosity 🤔 as an experiment 🔬🧪 in T3
+                &middot; MIT Licensed
+                &middot; Copyright &copy; Saul Johnson 2022 (<a href="https://github.com/lambdacasserole" target="_blank" referrerPolicy="no-referrer">@lambdacasserole</a>)
+            </div>
+        </footer>
+    );
+};
+
+export default Footer;

@@ -1,9 +1,10 @@
-import { Classifier } from "@prisma/client";
+import type { Classifier } from "@prisma/client";
 
-import { MouseEventHandler, useEffect, useState } from "react";
-import { ConfusionMatrix } from "../utils/ml";
+import { useRef, useState } from "react";
 
 import { trpc } from "../utils/trpc";
+import type { ConfusionMatrix } from "../utils/ml";
+
 import ActionButton from "./actionButton";
 import ConfusionMatrixDisplay from "./confusionMatrixDisplay";
 
@@ -17,13 +18,21 @@ const ClassifierTile: React.FC<classifierTileProps> = ({ classifier }: classifie
 
     const [testDocument, setTestDocument] = useState('');
     const [copyButtonWarm, setCopyButtonWarm] = useState(false);
+    const rootComponentRef = useRef<HTMLDivElement>(null);
     const testQuery = trpc.classifier.classify.useQuery({
         classifierUuid: classifier.uuid,
         document: testDocument,
     }, { enabled: false });
+    const deleteQuery = trpc.classifier.delete.useMutation({
+        onSuccess: () => {
+            if (rootComponentRef.current) {
+                rootComponentRef.current.style.display = 'none';
+            }
+        }
+    });
 
     return (
-        <div className="p-6 mb-6 rounded-lg bg-neutral-800 text-white grid lg:grid-cols-2 md:grid-cols-1 text-left border border-neutral-700">
+        <div ref={rootComponentRef} className="p-6 mb-6 rounded-lg bg-neutral-800 text-white grid lg:grid-cols-2 md:grid-cols-1 text-left border border-neutral-700">
             <div className="md:col-span-1 lg:col-span-2 mb-6">
                 <h2 className="text-xl">{classifier.name.length ? classifier.name : classifier.uuid}</h2>
             </div>
@@ -66,6 +75,12 @@ const ClassifierTile: React.FC<classifierTileProps> = ({ classifier }: classifie
                             <span className="text-neutral-500 font-mono">N/A</span>}
                     </span>
                     <ActionButton onClick={() => testQuery.refetch()} text="Test" />
+                </p>
+                <p className="mt-3">
+                    <ActionButton
+                        className="border-red-500 text-red-500 w-full"
+                        onClick={() => deleteQuery.mutate({ classifierUuid: classifier.uuid })}
+                        text="Delete classifier" />
                 </p>
             </div>
             <div className="col-span-1 text-left overflow-scroll">

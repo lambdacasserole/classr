@@ -10,7 +10,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 import { getAbsoluteTop } from "../utils/spatial";
 
@@ -19,10 +19,11 @@ import Jumbotron from "../components/jumbotron";
 import StaticImageCard from "../components/staticImageCard";
 import AnimatedImageCard from "../components/animatedImageCard";
 import NavItem from "../components/navItem";
-import SignedInNavItem from "../components/signedInNavItem";
 import Favicon from "../components/favicon";
 import ActionButton from "../components/actionButton";
 import LinkButton from "../components/linkButton";
+import GitHubRibbon from "../components/gitHubRibbon";
+import Footer from "../components/footer";
 
 
 /**
@@ -66,7 +67,10 @@ const Home: NextPage = () => {
               behavior: "smooth",
             })} />
             {sessionData ?
-              <SignedInNavItem sessionData={sessionData} /> :
+              <>
+                <NavItem text={`My Classifiers (${sessionData.user?.name})`} href="/app" />
+                <NavItem text="Sign out" onClick={() => signOut()} />
+              </> :
               <NavItem text="Sign in" onClick={() => signIn()} />
             }
           </>
@@ -162,6 +166,8 @@ const Home: NextPage = () => {
           </div>
         </section>
       </main>
+      <Footer />
+      <GitHubRibbon />
     </>
   );
 };
