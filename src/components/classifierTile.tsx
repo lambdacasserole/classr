@@ -25,13 +25,18 @@ export interface classifierTileProps {
      * The classifier to wrap.
      */
     classifier: Classifier;
+
+    /**
+     * Raised when the classifier is deleted.
+     */
+    onDelete: () => void;
 }
 
 
 /**
  * Represents a classifier tile component.
  */
-const ClassifierTile: React.FC<classifierTileProps> = ({ classifier }: classifierTileProps) => {
+const ClassifierTile: React.FC<classifierTileProps> = ({ classifier, onDelete }: classifierTileProps) => {
 
     // Retain this handle to the tile root component to hide it right away on delete.
     const rootComponentRef = useRef<HTMLDivElement>(null);
@@ -52,6 +57,9 @@ const ClassifierTile: React.FC<classifierTileProps> = ({ classifier }: classifie
         onMutate: () => {
             if (rootComponentRef.current) {
                 rootComponentRef.current.style.display = 'none'; // Hide tile immediately.
+                if (onDelete) {
+                    onDelete(); // Raise event.
+                }
             }
         }
     });

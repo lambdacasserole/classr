@@ -22,14 +22,16 @@ const App: NextPage = () => {
   // Maintain these references to allow smooth scrolling to sections.
   const [navbarHeight, setNavbarHeight] = useState(0);
   const myClassifiersRef = useRef<HTMLDivElement>(null);
-  const newClassifierRef = useRef<HTMLDivElement>(null)
+  const newClassifierRef = useRef<HTMLDivElement>(null);
 
   // Maintains a handle to the user's session.
   const { data: sessionData } = useSession();
 
   const loadingTile = useRef<HTMLDivElement>(null);
   const classifiersQuery = trpc.classifier.list.useQuery(undefined, {
-    onSettled: () => setIsLoading(false),
+    onSettled: () => {
+      setIsLoading(false);
+    },
   });
   const addClassifierQuery = trpc.classifier.train.useMutation({
     onSettled: () => classifiersQuery.refetch(), // Reload all classifiers on add.
@@ -95,7 +97,11 @@ const App: NextPage = () => {
                 <Spinner />
               </div> :
               <>
-                {classifiersQuery.data?.map((classifier) => <ClassifierTile classifier={classifier} />)}
+                {classifiersQuery.data?.length ?
+                  classifiersQuery.data?.map((classifier) => <ClassifierTile classifier={classifier} />) :
+                  <div ref={loadingTile} className="p-6 mb-6 rounded-lg bg-neutral-800 text-neutral-400 text-white border border-neutral-700">
+                    You have no microclassifiers yet!
+                  </div>}
                 <div ref={newClassifierRef} className="p-6 mb-6">
                   <FileUpload
                     onChange={(e) => {
