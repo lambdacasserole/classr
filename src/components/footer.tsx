@@ -1,3 +1,5 @@
+import StackIcon from "./stackIcon";
+
 const Footer: React.FC = () => {
     return (
         <footer
@@ -25,8 +27,12 @@ const Footer: React.FC = () => {
                     Turns out, it&apos;s a super cool stack that you should definitely try out if you haven&apos;t already.
                 </p>
                 <p className="mt-2">
-                    <img src="/images/t3.svg" style={{ width: '32px', height: 'auto', display: 'inline-block' }} />
-                    <img src="/images/tailwind.svg" style={{ width: '32px', height: 'auto', display: 'inline-block' }} />
+                    <StackIcon src="/images/t3.svg" alt="create-t3-app" />
+                    <StackIcon src="/images/typescript.svg" alt="TypeScript" />
+                    <StackIcon src="/images/tailwind.svg" alt="Tailwind CSS" />
+                    <StackIcon src="/images/prisma.svg" alt="Prisma ORM" />
+                    <StackIcon src="/images/nextjs.svg" alt="Next.js" />
+                    <StackIcon src="/images/trpc.svg" alt="tRPC" />
                 </p>
             </div>
             <div className="col-span-1 p-3">

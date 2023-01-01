@@ -109,7 +109,7 @@ const Home: NextPage = () => {
               frameDelay={500}
               buttonText="See supported formats"
               onButtonClick={() => window.scrollTo({
-                top: getAbsoluteTop(trainingSection.current),
+                top: getAbsoluteTop(trainingSection.current) - navbarHeight,
                 behavior: "smooth"
               })} />
           </div>
@@ -153,17 +153,29 @@ const Home: NextPage = () => {
         </section>
         <section
           ref={usageSection}
-          className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover rounded-lg grid lg:grid-cols-2 md:grid-cols-1 gap-4">
+          className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover rounded-lg grid lg:grid-cols-4 md:grid-cols-1 gap-4">
+          <div className="col-span-1"></div>
           <div className="lg:col-span-2 md:col-span-1">
             <h2 className="text-xl text-white mb-4">Usage</h2>
             <hr className="w-40 mx-auto border-t-2 border-gray-400 mt-6 mb-6" />
+            <p className="text-white">
+              Each microclassifier you create gives you, and everyone who knows your microclassifier ID, the ability to
+              use it for classification (a POST request) or retrieve information about it (a GET request).
+            </p>
           </div>
-          <div className="col-span-1">
-
+          <div className="col-span-1"></div>
+          <div className="col-span-1"></div>
+          <div className="col-span-2 text-left">
+            <h3 className="text-lg text-white mb-4">Get microclassifier info (GET)</h3>
+            <pre className="text-mono overflow-scroll bg-neutral-800 text-white p-6 rounded">
+{"$ curl https://classr.dev/api/classifier/<classifier-uuid>"}
+            </pre>
+            <h3 className="text-lg text-white mb-4 mt-4">Use microclassifier (POST)</h3>
+            <pre className="text-mono overflow-scroll bg-neutral-800 text-white p-6 rounded">
+{"$ curl --header \"Content-Type: application/json\" --request POST --data '{\"document\":\"The text of the unseen document to classify!\"}' https://classr.dev/api/classifier/<classifier-uuid>"}
+            </pre>
           </div>
-          <div className="col-span-1">
-
-          </div>
+          <div className="col-span-1"></div>
         </section>
       </main>
       <Footer />

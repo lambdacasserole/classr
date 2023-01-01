@@ -79,7 +79,7 @@ const App: NextPage = () => {
                   height={100}
                   alt="Classr Logo" />
                 <h4 className="text-lg mb-6">
-                  Hey {sessionData?.user?.name}! You can manage, inspect and test your classifiers below.
+                  Hey {sessionData?.user?.name}! You can manage, inspect and test your microclassifiers below.
                 </h4>
               </div>
             </div>

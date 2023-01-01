@@ -23,6 +23,9 @@ export interface ActionButtonProps {
      */
     disabled?: boolean;
 
+    /**
+     * Any additional CSS classes to add to the component.
+     */
     className?: string;
 
     /**
