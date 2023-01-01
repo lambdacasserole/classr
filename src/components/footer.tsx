@@ -5,6 +5,8 @@
  * @author Saul Johnson <saul.a.johnson@gmail.com>
  */
 
+import Link from "next/link";
+
 import StackIcon from "./stackIcon";
 
 
@@ -32,8 +34,8 @@ const Footer: React.FC = () => {
             <div className="col-span-1 p-3">
                 <h3 className="text-lg mb-3">🤔 Why this project?</h3>
                 <p className="mb-2 text-sm">
-                    I (<a href="https://github.com/lambdacasserole">@lambdacasserole</a>) wanted to see what I could do
-                    working on something from scratch with the <a href="https://create.t3.gg/en/introduction">T3 stack</a> while
+                    I (<Link href="https://github.com/lambdacasserole">@lambdacasserole</Link>) wanted to see what I could do
+                    working on something from scratch with the <Link href="https://create.t3.gg/en/introduction">T3 stack</Link> while
                     sharpening my frontend skills in the process.
                 </p>
                 <p className="text-sm">
@@ -67,7 +69,7 @@ const Footer: React.FC = () => {
             <div className="md:col-span-1 lg:col-span-5 opacity-50 text-center text-xs mt-6">
                 Made with curiosity 🤔 as an experiment 🔬🧪 in T3
                 &middot; MIT Licensed
-                &middot; Copyright &copy; Saul Johnson 2022 (<a href="https://github.com/lambdacasserole" target="_blank" referrerPolicy="no-referrer" rel="noreferrer">@lambdacasserole</a>)
+                &middot; Copyright &copy; Saul Johnson 2022 (<Link href="https://github.com/lambdacasserole" target="_blank" referrerPolicy="no-referrer" rel="noreferrer">@lambdacasserole</Link>)
             </div>
         </footer>
     );

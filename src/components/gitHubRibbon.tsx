@@ -6,6 +6,7 @@
  */
 
 import Image from "next/image";
+import Link from "next/link";
 
 
 /**
@@ -13,7 +14,7 @@ import Image from "next/image";
  */
 const GitHubRibbon: React.FC = () => {
     return (
-        <a href="https://github.com/lambdacasserole/classr" target="_blank" rel="noreferrer">
+        <Link href="https://github.com/lambdacasserole/classr" target="_blank" rel="noreferrer">
             <Image src="/images/github-ribbon.svg" alt="Open-source on GitHub" style={{
                 position: 'fixed',
                 bottom: 0,
@@ -22,7 +23,7 @@ const GitHubRibbon: React.FC = () => {
                 width: '94px',
                 height: 'auto',
             }} width={94} height={94} />
-        </a>
+        </Link>
     );
 }
 
