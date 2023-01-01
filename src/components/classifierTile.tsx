@@ -86,7 +86,9 @@ const ClassifierTile: React.FC<classifierTileProps> = ({ classifier }: classifie
                         value={classifier.uuid}
                         className="form-control mr-6 flex-grow px-3 py-1.5 text-base text-white bg-transparent font-mono bg-clip-padding border border-solid border-neutral-600 rounded transition ease-in-out m-0 mb-4 focus:outline-none"
                         readOnly />
-                    <ActionButton text={isCopyButtonWarm ? 'Copied!' : 'Copy'} onClick={(e) => {
+                    <ActionButton text={isCopyButtonWarm ? 'Copied!' : 'Copy'} onClick={() => {
+
+                        // Copy UUID and set button warm, cool down after 2s.
                         navigator.clipboard.writeText(classifier.uuid);
                         setIsCopyButtonWarm(true);
                         setTimeout(() => setIsCopyButtonWarm(false), 2000);
