@@ -1,3 +1,14 @@
+/**
+ * Contains the {@link Favicon} component.
+ *
+ * @since 01/01/2022
+ * @author Saul Johnson <saul.a.johnson@gmail.com>
+ */
+
+
+/**
+ * Represents the application favicon.
+ */
 const Favicon: React.FC = () => {
     return (
         <>

@@ -10,7 +10,7 @@ import { normalizeConfusionMatrix } from "../utils/ml";
 
 
 /**
- * Propsfor the {@link ConfusionMatrixDisplay} component.
+ * Props for the {@link ConfusionMatrixDisplay} component.
  */
 export interface ConfusionMatrixDisplayProps {
 

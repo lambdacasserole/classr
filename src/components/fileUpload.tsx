@@ -1,10 +1,28 @@
-import { ChangeEventHandler } from "react";
+/**
+ * Contains the {@link FileUpload} component and its props interface.
+ *
+ * @since 01/01/2022
+ * @author Saul Johnson <saul.a.johnson@gmail.com>
+ */
 
+import type { ChangeEventHandler } from "react";
+
+
+/**
+ * Props for the {@link FileUploadProps} component.
+ */
 export interface FileUploadProps {
-    onChange: ChangeEventHandler<HTMLInputElement>;
+
+    /**
+     * The event handler to trigger when a file is uploaded.
+     */
+    onChange?: ChangeEventHandler<HTMLInputElement>;
 }
 
 
+/**
+ * Represents a file upload button.
+ */
 const FileUpload: React.FC<FileUploadProps> = ({ onChange }: FileUploadProps) => {
     return (
         <div className="flex w-full items-center justify-center">
