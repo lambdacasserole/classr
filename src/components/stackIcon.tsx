@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export interface StackIconProps {
     src: string,
     alt: string,
@@ -5,11 +7,9 @@ export interface StackIconProps {
 
 const StackIcon: React.FC<StackIconProps> = ({ src, alt }: StackIconProps) => {
     return (
-        <img src={src} alt={alt} className="opacity-50 hover:opacity-100 mr-2" style={{
-            width: '32px',
-            height: 'auto',
+        <Image src={src} alt={alt} className="opacity-50 hover:opacity-100 mr-2" style={{
             display: 'inline-block',
-        }} />
+        }} width={32} height={32} />
     );
 };
 

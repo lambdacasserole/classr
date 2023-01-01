@@ -15,7 +15,7 @@ import Card from './card';
 /**
  * Props for the {@link AnimatedImageCard} component.
  */
-export interface AnimatedImageCardProps extends CardProps, AnimatedImageProps {}
+export interface AnimatedImageCardProps extends CardProps, AnimatedImageProps { }
 
 /**
  * Represents a card with an animated image.
@@ -33,7 +33,13 @@ const AnimatedImageCard: React.FC<AnimatedImageCardProps> = ({
 }: AnimatedImageCardProps) => {
     return (
         <Card title={title} text={text} buttonText={buttonText} buttonHref={buttonHref} onButtonClick={onButtonClick}>
-            <AnimatedImage baseUrl={baseUrl} imageAlt={imageAlt} frameCount={frameCount} frameDelay={frameDelay} />
+            <AnimatedImage
+                baseUrl={baseUrl}
+                imageAlt={imageAlt}
+                frameCount={frameCount}
+                frameDelay={frameDelay}
+                width={384}
+                height={208} />
         </Card>
     );
 };

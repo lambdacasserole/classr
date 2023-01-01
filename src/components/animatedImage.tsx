@@ -7,6 +7,8 @@
 
 import { useEffect, useState } from "react";
 
+import Image from "next/image";
+
 
 /**
  * Props for the {@link AnimatedImage} component.
@@ -32,6 +34,21 @@ export interface AnimatedImageProps {
      * The amount of time each frame should be displayed for in milliseconds.
      */
     frameDelay: number;
+
+    /**
+     * The width of the image.
+     */
+    width?: number;
+
+    /**
+     * The height of the image.
+     */
+    height?: number;
+
+    /**
+     * Whether or not the image should fill its parent.
+     */
+    fill?: boolean;
 }
 
 
@@ -43,6 +60,9 @@ const AnimatedImage: React.FC<AnimatedImageProps> = ({
     imageAlt,
     frameCount,
     frameDelay,
+    width,
+    height,
+    fill,
 }: AnimatedImageProps) => {
 
     // Maintain current frame number as state.
@@ -59,8 +79,7 @@ const AnimatedImage: React.FC<AnimatedImageProps> = ({
     }, [frame, frameCount, frameDelay]);
 
     return (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={baseUrl.replace('#', frame.toString())} alt={imageAlt} />
+        <Image src={baseUrl.replace('#', frame.toString())} alt={imageAlt} width={width} height={height} fill={fill} />
     );
 };
 

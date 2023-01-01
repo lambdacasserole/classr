@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { CardProps } from './card';
 import Card from './card';
 
@@ -23,7 +24,7 @@ const StaticImageCard: React.FC<StaticImageCardProps> = ({
     return (
         <Card buttonDisabled={buttonDisabled} title={title} text={text} buttonText={buttonText} buttonHref={buttonHref} onButtonClick={onButtonClick}>
             {imageSrc && imageAlt ?
-                <img src={imageSrc} alt={imageAlt} />
+                <Image src={imageSrc} alt={imageAlt} width={384} height={208} />
                 : <></>}
         </Card>
     );
