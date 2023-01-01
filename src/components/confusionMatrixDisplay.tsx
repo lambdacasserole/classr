@@ -58,6 +58,7 @@ const ConfusionMatrixDisplay: React.FC<ConfusionMatrixDisplayProps> = ({
                             }}>{label}</div>
                         {column ? Object.keys(column).map((row, j) =>
                             <div
+                                key={j}
                                 className="grid-item text-center"
                                 style={{
                                     gridRow: j + 2,
@@ -67,9 +68,8 @@ const ConfusionMatrixDisplay: React.FC<ConfusionMatrixDisplayProps> = ({
                                     borderBottom: `1px solid ${j === labels.length - 1 ? '#000' : 'transparent'}`,
                                     borderRight: `1px solid ${i === labels.length - 1 ? '#000' : 'transparent'}`,
                                 }}>
-                                {Math.round(column[row] * 100) / 100}
-                            </div>)
-                            : []}
+                                {Math.round((column[row] ?? 0) * 100) / 100}
+                            </div>) : []}
                     </>
                 );
             })}

@@ -71,6 +71,24 @@ const ClassifierTile: React.FC<classifierTileProps> = ({ classifier }: classifie
             <div className="col-span-1 text-left overflow-scroll">
                 <h2 className="text-md">Confusion matrix</h2>
                 <ConfusionMatrixDisplay confusionMatrix={classifier.confusionMatrix as ConfusionMatrix} />
+                <div className="mt-6 mb-3">
+                    Overall accuracy ({Math.round(classifier.overallAccuracy * 100)}%)
+                </div>
+                <div className="w-full bg-neutral-600 h-2">
+                    <div className="bg-green-600 h-2" style={{ width: `${Math.round(classifier.overallAccuracy * 100)}%` }}></div>
+                </div>
+                <div className="mt-6 mb-3">
+                    Macro precision ({Math.round(classifier.precision * 100)}%)
+                </div>
+                <div className="w-full bg-neutral-600 h-2">
+                    <div className="bg-blue-600 h-2" style={{ width: `${Math.round(classifier.precision * 100)}%` }}></div>
+                </div>
+                <div className="mt-6 mb-3">
+                    Macro recall ({Math.round(classifier.recall * 100)}%)
+                </div>
+                <div className="w-full bg-neutral-600 h-2">
+                    <div className="bg-red-600 h-2" style={{ width: `${Math.round(classifier.recall * 100)}%` }}></div>
+                </div>
             </div>
         </div>
     );
