@@ -1,7 +1,13 @@
-import type { Context } from "react";
+/**
+ * Contains the application sign-in page.
+ *
+ * @since 02/01/2023
+ * @author Saul Johnson <saul.a.johnson@gmail.com>
+ */
 
 import Head from "next/head";
 import Image from "next/image";
+
 import type { OAuthConfig } from "next-auth/providers";
 import { getProviders, signIn } from "next-auth/react"
 
@@ -37,6 +43,22 @@ function convertProviderName(providerName: string): string {
 }
 
 
+const enabledProviders = ['github'];
+
+
+/**
+ * Gets the server-side props for the page.
+ *
+ * @returns the server-side props for the page
+ */
+export async function getServerSideProps() {
+    const providers = await getProviders()
+    return {
+        props: { providers },
+    }
+}
+
+
 /**
  * The sign in page.
  */
@@ -61,6 +83,7 @@ const SignIn: React.FC<SignInProps> = ({ providers }: SignInProps) => {
                         alt="Classr Logo" />
                     <h3 className="text-lg text-white">Sign in</h3>
                     <hr className="w-40 mx-auto border-t-2 border-neutral-600 mt-6 mb-6" />
+                    {/* Buttons for sign-in  providers */}
                     {Object.values(providers).map((provider) => (
                         <div key={provider.name} >
                             <ActionButton
@@ -68,8 +91,9 @@ const SignIn: React.FC<SignInProps> = ({ providers }: SignInProps) => {
                                 onClick={() => signIn(provider.id, {
                                     callbackUrl: '/',
                                 })}
-                                text={`Sign in with ${provider.name}`}
-                                icon={`/images/${convertProviderName(provider.name)}.svg`} />
+                                text={`Sign in with ${provider.name} ${enabledProviders.includes(convertProviderName(provider.name)) ? '' : '(Coming soon!)'}`}
+                                icon={`/images/${convertProviderName(provider.name)}.svg`}
+                                disabled={!enabledProviders.includes(convertProviderName(provider.name))} />
                         </div>
                     ))}
                     <hr className="w-40 mx-auto border-t-2 border-neutral-600 mt-3 mb-6" />
@@ -81,10 +105,3 @@ const SignIn: React.FC<SignInProps> = ({ providers }: SignInProps) => {
 }
 
 export default SignIn;
-
-export async function getServerSideProps(context: Context) {
-    const providers = await getProviders()
-    return {
-        props: { providers },
-    }
-}

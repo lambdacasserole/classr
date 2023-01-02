@@ -70,12 +70,13 @@ export const classifierRouter = router({
     train: protectedProcedure
         .input(
             z.object({
+                name: z.string().optional(),
                 data: z.string(),
             }),
         )
         .mutation(async ({
             ctx,
-            input: { data },
+            input: { name, data },
         }) => {
 
             // Parse base64 out of data URL.
@@ -92,6 +93,8 @@ export const classifierRouter = router({
 
             // Test-train split (with default 80/20 split).
             const { test, train } = testTrainSplit(documents);
+
+            // Initialize classifier, train and test.
             const classifier = bayes();
             await Promise.all(train.map((document) => classifier.learn(document.document, document.label)));
             await Promise.all(test.map(async (document) => {
@@ -99,14 +102,17 @@ export const classifierRouter = router({
                 const actualLabel = await classifier.categorize(document.document);
                 const column = confusionMatrix[trueLabel];
                 if (column) {
-                    column[actualLabel] += 1;
+                    column[actualLabel] += 1; // Populate confusion matrix.
                 }
             }));
+
+
             await ctx.prisma.classifier.create({
                 data: {
                     uuid: randomUUID(),
-                    name: '',
-                    description: '',
+                    name: name ?? '',
+                    description: `Classifier created from ${name ?? 'a CSV file'} on ${(new Date()).toLocaleString()}`
+                        + ` with classes: ${Object.keys(confusionMatrix).join(', ')}`,
                     precision: computeMacroPrecision(confusionMatrix),
                     recall: computeMacroRecall(confusionMatrix),
                     f1Score: computeMacroF1Score(confusionMatrix),
