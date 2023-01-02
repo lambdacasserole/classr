@@ -40,7 +40,7 @@ const Jumbotron: React.FC<JumbotronProps> = ({ onButtonClick }: JumbotronProps) 
                 style={{
                     backgroundColor: "rgba(0, 0, 0, 0.4)",
                 }}>
-                <div className="flex justify-center items-center h-full">
+                <div className="flex justify-center items-center h-full px-6">
                     <div className="text-white">
                         <Image
                             src="/logo-hero.svg"

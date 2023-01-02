@@ -106,7 +106,7 @@ export const classifierRouter = router({
                 }
             }));
 
-
+            // Create classifier.
             await ctx.prisma.classifier.create({
                 data: {
                     uuid: randomUUID(),

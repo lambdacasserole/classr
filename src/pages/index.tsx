@@ -37,54 +37,61 @@ const Home: NextPage = () => {
   const trainingSection = useRef<HTMLElement>(null);
   const usageSection = useRef<HTMLElement>(null);
 
-
+  // Maintains a handle to the user's session.
   const { data: sessionData } = useSession();
 
   return (
     <>
+      {/* Injected into document head */}
       <Head>
         <title>Classr &middot; Train and use microclassifiers in the cloud</title>
         <meta name="description" content="Train and use microclassifiers in the cloud" />
         <Favicon />
       </Head>
+      {/* Header section */}
       <header>
+        {/* Navigation bar */}
         <Navbar onScrollListenerRegistered={(offsetHeight) => setNavbarHeight(offsetHeight)}>
           <>
             <NavItem text="Home" onClick={() => window.scrollTo({
               top: 0,
-              behavior: "smooth",
+              behavior: "smooth", // Smooth scroll to top.
             })} />
             <NavItem text="Quickstart" onClick={() => window.scrollTo({
               top: getAbsoluteTop(quickstartSection.current) - navbarHeight,
-              behavior: "smooth",
+              behavior: "smooth", // Smooth scroll to quickstart section.
             })} />
             <NavItem text="Training" onClick={() => window.scrollTo({
               top: getAbsoluteTop(trainingSection.current) - navbarHeight,
-              behavior: "smooth",
+              behavior: "smooth", // Smooth scroll to training section.
             })} />
             <NavItem text="Usage" onClick={() => window.scrollTo({
               top: getAbsoluteTop(usageSection.current) - navbarHeight,
-              behavior: "smooth",
+              behavior: "smooth", // Smooth scroll to usage section.
             })} />
             {sessionData ?
+              // Include the following if the user is signed in
               <>
                 <NavItem text={`My Classifiers (${sessionData.user?.name})`} href="/app" />
                 <NavItem text="Sign out" onClick={() => signOut()} />
               </> :
+              // Include the following if the user is signed out.
               <NavItem text="Sign in" onClick={() => signIn()} />
             }
           </>
         </Navbar>
       </header>
       <main className="flex min-h-screen flex-col bg-neutral-900">
+        {/* Jumbotron */}
         <Jumbotron onButtonClick={() => window.scrollTo({
           top: getAbsoluteTop(quickstartSection.current) - navbarHeight,
-          behavior: "smooth"
+          behavior: "smooth", // Smooth scroll to quickstart section.
         })} />
+        {/* Quickstart section */}
         <section
           ref={quickstartSection}
-          className="p-12 text-center relative overflow-hidden grid lg:grid-cols-3 md:grid-cols-1 gap-4">
-          <div className="lg:col-span-3 md:col-span-1">
+          className="p-12 text-center relative overflow-hidden grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="col-span-1 lg:col-span-3">
             <h2 className="text-xl text-white mb-4">Quickstart</h2>
             <hr className="w-40 mx-auto border-t-2 border-gray-400 mt-6 mb-6" />
           </div>
@@ -95,8 +102,8 @@ const Home: NextPage = () => {
               imageSrc="/images/source-control.svg"
               imageAlt="GitHub, GitLab and Bitbucket logos"
               buttonText={sessionData ? "Already signed in" : "Register"}
-              buttonDisabled={!!sessionData}
-              onButtonClick={() => signIn()}
+              buttonDisabled={!!sessionData} // Disable if we're signed in.
+              onButtonClick={() => signIn()} // Initiate sign-in by redirecting to sign-in page.
             />
           </div>
           <div className="col-span-1">
@@ -110,7 +117,7 @@ const Home: NextPage = () => {
               buttonText="See supported formats"
               onButtonClick={() => window.scrollTo({
                 top: getAbsoluteTop(trainingSection.current) - navbarHeight,
-                behavior: "smooth"
+                behavior: "smooth", // Smooth scroll to training section.
               })} />
           </div>
           <div className="col-span-1">
@@ -124,17 +131,20 @@ const Home: NextPage = () => {
               buttonText="Read the docs"
               onButtonClick={() => window.scrollTo({
                 top: getAbsoluteTop(usageSection.current) - navbarHeight,
-                behavior: "smooth"
+                behavior: "smooth", // Smooth scroll to usage section.
               })} />
           </div>
         </section>
+        {/* Training section */}
         <section
           ref={trainingSection}
-          className="p-12 text-center relative overflow-hidden bg-neutral-800 grid lg:grid-cols-4 md:grid-cols-1 gap-4">
-          <div className="lg:col-span-4 md:col-span-1">
+          className="p-12 text-center relative overflow-hidden bg-neutral-800 grid grid-cols-1 lg:grid-cols-4 gap-4">
+          {/* Training title row */}
+          <div className="col-span-1 lg:col-span-4">
             <h2 className="text-xl text-white mb-4">Training</h2>
             <hr className="w-40 mx-auto border-t-2 border-gray-400 mt-6 mb-6" />
           </div>
+          {/* Training content row */}
           <div className="col-span-1"></div>
           <div className="col-span-1">
             <Image alt="" src="/images/training-data.png" width={800} height={100} />
@@ -155,11 +165,13 @@ const Home: NextPage = () => {
           </div>
           <div className="col-span-1"></div>
         </section>
+        {/* Usage section */}
         <section
           ref={usageSection}
-          className="p-12 text-center relative overflow-hidden grid lg:grid-cols-4 md:grid-cols-1 gap-4">
+          className="p-12 text-center relative overflow-hidden grid grid-cols-1 lg:grid-cols-4 gap-4">
+          {/* Usage title row */}
           <div className="col-span-1"></div>
-          <div className="lg:col-span-2 md:col-span-1">
+          <div className="col-span-1 lg:col-span-2">
             <h2 className="text-xl text-white mb-4">Usage</h2>
             <hr className="w-40 mx-auto border-t-2 border-gray-400 mt-6 mb-6" />
             <p className="text-white">
@@ -168,21 +180,24 @@ const Home: NextPage = () => {
             </p>
           </div>
           <div className="col-span-1"></div>
+          {/* Usage examples row */}
           <div className="col-span-1"></div>
-          <div className="lg:col-span-2 md:col-span-1 text-left">
+          <div className="col-span-1 lg:col-span-2 text-left">
             <h3 className="text-lg text-white mb-4">Get microclassifier info (GET)</h3>
             <pre className="text-mono overflow-scroll bg-neutral-800 text-white p-6 rounded">
-{"$ curl https://classr.dev/api/classifier/<classifier-uuid>"}
+              {"$ curl https://classr.dev/api/classifier/<classifier-uuid>"}
             </pre>
             <h3 className="text-lg text-white mb-4 mt-4">Use microclassifier (POST)</h3>
             <pre className="text-mono overflow-scroll bg-neutral-800 text-white p-6 rounded">
-{"$ curl --header \"Content-Type: application/json\" --request POST --data '{\"document\":\"The text of the unseen document to classify!\"}' https://classr.dev/api/classifier/<classifier-uuid>"}
+              {"$ curl --header \"Content-Type: application/json\" --request POST --data '{\"document\":\"The text of the unseen document to classify!\"}' https://classr.dev/api/classifier/<classifier-uuid>"}
             </pre>
           </div>
           <div className="col-span-1"></div>
         </section>
       </main>
+      {/* Include footer */}
       <Footer />
+      {/* Include GitHub ribbon */}
       <GitHubRibbon />
     </>
   );

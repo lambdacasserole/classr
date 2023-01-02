@@ -1,15 +1,26 @@
+/**
+ * Contains the {@link StaticImageCard} component and its props interface.
+ *
+ * @since 02/01/2023
+ * @author Saul Johnson <saul.a.johnson@gmail.com>
+ */
+
 import Image from 'next/image';
+
 import type { CardProps } from './card';
 import Card from './card';
 
+
+/**
+ * Props fo the {@link StaticImageCard} component.
+ */
 export interface StaticImageCardProps extends CardProps {
     imageSrc?: string;
     imageAlt?: string;
 }
 
 /**
- *
- * @returns
+ * Represents a card with an static image.
  */
 const StaticImageCard: React.FC<StaticImageCardProps> = ({
     title,

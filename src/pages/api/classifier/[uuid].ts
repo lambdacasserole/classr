@@ -1,7 +1,9 @@
-import bayes from "bayes";
+
 import { type NextApiRequest, type NextApiResponse } from "next";
 
+import bayes from "bayes";
 import { prisma } from "../../../server/db/client";
+
 import type { ConfusionMatrix} from "../../../utils/ml";
 import { normalizeConfusionMatrix } from "../../../utils/ml";
 
