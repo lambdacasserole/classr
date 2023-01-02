@@ -43,6 +43,9 @@ function convertProviderName(providerName: string): string {
 }
 
 
+/**
+ * An array of auth providers that should be enabled.
+ */
 const enabledProviders = ['github'];
 
 
