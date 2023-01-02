@@ -79,6 +79,17 @@ export const classifierRouter = router({
             input: { name, data },
         }) => {
 
+            // Check that we haven't gone over the limit for number of classifiers.
+            const classifierCountLimit = parseInt(process.env.CLASSIFIER_UPPER_LIMIT ?? '100', 10);
+            const existingClassifierCount = await ctx.prisma.classifier.count({
+                where: {
+                    userId: ctx.session.user.id,
+                },
+            });
+            if (existingClassifierCount >= classifierCountLimit) {
+                throw new Error(`You may not create more than ${classifierCountLimit} microclassifier right now.`);
+            }
+
             // Parse base64 out of data URL.
             const csvData = data.split(',')[1];
             if (!csvData) {
