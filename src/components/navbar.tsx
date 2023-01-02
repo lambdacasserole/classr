@@ -74,7 +74,7 @@ const Navbar: React.FC<NavbarProps> = ({ onScrollListenerRegistered, children }:
   }, [onScrollListenerRegistered]); // Will only run on initialization.
 
   return (
-    <nav ref={navRef} className={`px-2 sm:px-4 py-2.5 fixed left-0 right-0 top-0 z-10 max-sm:bg-neutral-800`} style={{
+    <nav ref={navRef} className={`px-2 sm:px-4 py-2.5 fixed left-0 right-0 top-0 z-10 max-md:bg-neutral-800`} style={{
       transition: 'background-color 0.25s', // Fade transition background color.
     }}>
       <div className="container flex flex-wrap items-center justify-between mx-auto">
