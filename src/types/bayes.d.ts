@@ -1,6 +1,6 @@
 declare module "bayes" {
 
-    interface NaivebayesOptions { tokenizer?: CallableFunction<string, string[]> };
+    interface NaivebayesOptions { tokenizer?: CallableFunction<string, string[]> }
 
     class Naivebayes {
         constructor(options?: NaivebayesOptions);

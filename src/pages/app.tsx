@@ -98,7 +98,7 @@ const App: NextPage = () => {
               </div> :
               <>
                 {classifiersQuery.data?.length ?
-                  classifiersQuery.data?.map((classifier) => <ClassifierTile classifier={classifier} />) :
+                  classifiersQuery.data?.map((classifier, i) => <ClassifierTile key={i} classifier={classifier} />) :
                   <div ref={loadingTile} className="p-6 mb-6 rounded-lg bg-neutral-800 text-neutral-400 text-white border border-neutral-700">
                     You have no microclassifiers yet!
                   </div>}
