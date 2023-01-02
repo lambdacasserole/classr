@@ -29,7 +29,7 @@ export interface classifierTileProps {
     /**
      * Raised when the classifier is deleted.
      */
-    onDelete: () => void;
+    onDelete?: () => void;
 }
 
 
