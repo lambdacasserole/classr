@@ -43,13 +43,12 @@ const App: NextPage = () => {
   const { data: sessionData } = useSession();
 
   // Queries for list/add classifier.
-  const classifiersQuery = trpc.classifier.list.useQuery(undefined, {
-    onSettled: () => {
-      setIsLoading(false);
-    },
+  const listClassifiersQuery = trpc.classifier.list.useQuery(undefined, {
+    onSettled: () => setIsLoading(false),
   });
-  const addClassifierQuery = trpc.classifier.train.useMutation({
-    onSettled: () => classifiersQuery.refetch(), // Reload all classifiers on add.
+  const addClassifierMutation = trpc.classifier.train.useMutation({
+    onMutate: () => setIsLoading(true),
+    onSettled: () => listClassifiersQuery.refetch(), // Reload all classifers on add.
   });
 
   return (
@@ -118,9 +117,15 @@ const App: NextPage = () => {
                 <Spinner />
               </div> :
               <>
-                {classifiersQuery.data?.length ?
+                {listClassifiersQuery.data?.length ?
                   // Classifier tiles.
-                  classifiersQuery.data?.map((classifier, i) => <ClassifierTile key={i} classifier={classifier} />) :
+                  listClassifiersQuery.data?.map((classifier, i) => <ClassifierTile
+                    key={i}
+                    classifier={classifier}
+                    onDelete={() => {
+                      setIsLoading(true);
+                      listClassifiersQuery.refetch();
+                    }} />) :
                   // No classifiers tile.
                   <div
                     ref={loadingTile}
@@ -138,13 +143,10 @@ const App: NextPage = () => {
                         return; // No file selected.
                       }
 
-                      // Show loading tile.
-                      setIsLoading(true);
-
                       // Read file and make tRPC call with base64.
                       const fileReader = new FileReader();
                       fileReader.onload = () => {
-                        addClassifierQuery.mutate({
+                        addClassifierMutation.mutate({
                           name: uploadedFile.name,
                           data: fileReader.result as string,
                         });
