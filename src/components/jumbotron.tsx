@@ -33,7 +33,6 @@ const Jumbotron: React.FC<JumbotronProps> = ({ onButtonClick }: JumbotronProps) 
             className="p-12 min-h-screen text-center relative overflow-hidden bg-no-repeat bg-cover bg-fixed rounded-lg"
             style={{
                 backgroundImage: "url('/images/hero-wisps.png')",
-                height: "400px",
             }}>
             <div
                 className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed"

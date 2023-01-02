@@ -1,23 +1,38 @@
+/**
+ * Contains the application classifiers page (main app).
+ *
+ * @since 02/01/2023
+ * @author Saul Johnson <saul.a.johnson@gmail.com>
+ */
+
+import { useRef, useState } from "react";
+
 import { type NextPage } from "next";
-import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+
+import { signOut, useSession } from "next-auth/react";
+
+import { getAbsoluteTop } from "../utils/spatial";
+import { trpc } from "../utils/trpc";
+
 import ClassifierTile from "../components/classifierTile";
 import Favicon from "../components/favicon";
 import FileUpload from "../components/fileUpload";
 import Footer from "../components/footer";
-import GitHubRibbon from "../components/gitHubRibbon";
 import Navbar from "../components/navbar";
 import NavItem from "../components/navItem";
 import Spinner from "../components/spinner";
-import { getAbsoluteTop } from "../utils/spatial";
-import { trpc } from "../utils/trpc";
 
 
+/**
+ * The application classifiers page (main app).
+ */
 const App: NextPage = () => {
 
+  // Loading state and reference to loading tile.
   const [isLoading, setIsLoading] = useState(true);
+  const loadingTile = useRef<HTMLDivElement>(null);
 
   // Maintain these references to allow smooth scrolling to sections.
   const [navbarHeight, setNavbarHeight] = useState(0);
@@ -27,7 +42,7 @@ const App: NextPage = () => {
   // Maintains a handle to the user's session.
   const { data: sessionData } = useSession();
 
-  const loadingTile = useRef<HTMLDivElement>(null);
+  // Queries for list/add classifier.
   const classifiersQuery = trpc.classifier.list.useQuery(undefined, {
     onSettled: () => {
       setIsLoading(false);
@@ -39,12 +54,15 @@ const App: NextPage = () => {
 
   return (
     <>
+      {/* Injected into document head */}
       <Head>
         <title>Classr &middot; My classifiers ({sessionData?.user?.name})</title>
         <meta name="description" content="Train and use microclassifiers in the cloud" />
         <Favicon />
       </Head>
+      {/* Header section */}
       <header>
+        {/* Navigation bar */}
         <Navbar onScrollListenerRegistered={(offsetHeight) => setNavbarHeight(offsetHeight)}>
           <>
             <NavItem text="Home" href="/" />
@@ -61,6 +79,7 @@ const App: NextPage = () => {
         </Navbar>
       </header>
       <main className="flex min-h-screen flex-col bg-neutral-900">
+        {/* Jumbotron */}
         <section
           className="p-12 h-100 text-center relative overflow-hidden bg-no-repeat bg-cover bg-fixed rounded-lg"
           style={{
@@ -87,34 +106,50 @@ const App: NextPage = () => {
             </div>
           </div>
         </section>
+        {/* Classifiers section */}
         <section
           ref={myClassifiersRef}
           className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover rounded-lg grid lg:grid-cols-6 md:grid-cols-1 gap-4">
           <div className="col-span-1"></div>
           <div className="lg:col-span-4 md:col-span-1">
             {isLoading ?
+              // Loading tile.
               <div ref={loadingTile} className="p-6 mb-6 rounded-lg bg-neutral-800 text-white border border-neutral-700">
                 <Spinner />
               </div> :
               <>
                 {classifiersQuery.data?.length ?
+                  // Classifier tiles.
                   classifiersQuery.data?.map((classifier, i) => <ClassifierTile key={i} classifier={classifier} />) :
-                  <div ref={loadingTile} className="p-6 mb-6 rounded-lg bg-neutral-800 text-neutral-400 text-white border border-neutral-700">
+                  // No classifiers tile.
+                  <div
+                    ref={loadingTile}
+                    className="p-6 mb-6 rounded-lg bg-neutral-800 text-neutral-400 text-white border border-neutral-700">
                     You have no microclassifiers yet!
                   </div>}
+                {/* New classifier upload. */}
                 <div ref={newClassifierRef} className="p-6 mb-6">
                   <FileUpload
                     onChange={(e) => {
-                      const f = e.target.files?.item(0);
-                      if (!f) {
-                        return;
+
+                      // Receive uploaded file.
+                      const uploadedFile = e.target.files?.item(0);
+                      if (!uploadedFile) {
+                        return; // No file selected.
                       }
+
+                      // Show loading tile.
                       setIsLoading(true);
-                      const fr = new FileReader();
-                      fr.onload = () => {
-                        addClassifierQuery.mutate({ data: fr.result as string });
+
+                      // Read file and make tRPC call with base64.
+                      const fileReader = new FileReader();
+                      fileReader.onload = () => {
+                        addClassifierQuery.mutate({
+                          name: uploadedFile.name,
+                          data: fileReader.result as string,
+                        });
                       };
-                      fr.readAsDataURL(f);
+                      fileReader.readAsDataURL(uploadedFile);
                     }} />
                 </div>
               </>
@@ -123,6 +158,7 @@ const App: NextPage = () => {
           <div className="col-span-1"></div>
         </section>
       </main>
+      {/* Include footer */}
       <Footer />
     </>
   );
