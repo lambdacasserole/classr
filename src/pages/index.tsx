@@ -14,7 +14,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 import { getAbsoluteTop } from "../utils/spatial";
 
-import NavBar from "../components/navbar";
+import Navbar from "../components/navbar";
 import Jumbotron from "../components/jumbotron";
 import StaticImageCard from "../components/staticImageCard";
 import AnimatedImageCard from "../components/animatedImageCard";
@@ -48,7 +48,7 @@ const Home: NextPage = () => {
         <Favicon />
       </Head>
       <header>
-        <NavBar onScrollListenerRegistered={(offsetHeight) => setNavbarHeight(offsetHeight)}>
+        <Navbar onScrollListenerRegistered={(offsetHeight) => setNavbarHeight(offsetHeight)}>
           <>
             <NavItem text="Home" onClick={() => window.scrollTo({
               top: 0,
@@ -74,7 +74,7 @@ const Home: NextPage = () => {
               <NavItem text="Sign in" onClick={() => signIn()} />
             }
           </>
-        </NavBar>
+        </Navbar>
       </header>
       <main className="flex min-h-screen flex-col bg-neutral-900">
         <Jumbotron onButtonClick={() => window.scrollTo({

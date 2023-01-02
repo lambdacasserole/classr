@@ -5,6 +5,7 @@
  * @author Saul Johnson <saul.a.johnson@gmail.com>
  */
 
+import Image from "next/image";
 import type { MouseEventHandler } from "react";
 
 
@@ -32,6 +33,11 @@ export interface ActionButtonProps {
      * The event handler for when the action button is clicked.
      */
     onClick: MouseEventHandler<HTMLButtonElement>;
+
+    /**
+     * The icon to display in the button.
+     */
+    icon?: string;
 }
 
 
@@ -43,6 +49,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
     disabled,
     className,
     onClick,
+    icon,
 }: ActionButtonProps) => {
     return (
         <button
@@ -51,6 +58,16 @@ const ActionButton: React.FC<ActionButtonProps> = ({
                 + ` ${disabled ? 'text-neutral-500 border-neutral-500' : 'text-neutral-100 border-neutral-100'}`
                 + ' focus:outline-none rounded-lg border focus:z-10', className].join(' ')}
             onClick={onClick}>
+            {icon ?
+                <Image
+                    className="inline-block mr-3"
+                    src={icon}
+                    style={{
+                        marginTop: '-3px',
+                    }}
+                    alt=""
+                    width={16}
+                    height={16} /> : <></>}
             {text}
         </button>
     );

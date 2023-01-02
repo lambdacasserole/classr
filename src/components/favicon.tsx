@@ -1,7 +1,7 @@
 /**
  * Contains the {@link Favicon} component.
  *
- * @since 01/01/2022
+ * @since 01/01/2023
  * @author Saul Johnson <saul.a.johnson@gmail.com>
  */
 

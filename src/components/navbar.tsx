@@ -1,20 +1,41 @@
-import Image from 'next/image';
-import Link from "next/link";
+/**
+ * Contains the {@link Navbar} component and its props interface.
+ *
+ * @since 01/01/2023
+ * @author Saul Johnson <saul.a.johnson@gmail.com>
+ */
 
 import { useEffect, useRef } from "react";
 
-export interface NavBarProps {
+import Image from 'next/image';
+import Link from "next/link";
+
+
+/**
+ * Props for the {@link Navbar} component.
+ */
+export interface NavbarProps {
+
+  /**
+   * Event raised when the scroll listener for the navbar has been registered.
+   *
+   * @param offsetHeight the offset height of the navbar
+   */
   onScrollListenerRegistered?: (offsetHeight: number) => void,
+
+	/**
+	 * Children of this component.
+	 */
   children: JSX.Element,
 }
 
-/**
- *
- * @returns
- */
-const NavBar: React.FC<NavBarProps> = ({ onScrollListenerRegistered, children }: NavBarProps) => {
 
-  // Transform
+/**
+ * Represents a navigation bar.
+ */
+const Navbar: React.FC<NavbarProps> = ({ onScrollListenerRegistered, children }: NavbarProps) => {
+
+  // Keep a handle to the navigation bar for adjusting its background color based on scroll.
   const navRef = useRef<HTMLElement>(null);
 
   // Runs only on initialization (when component is mounted).
@@ -44,13 +65,14 @@ const NavBar: React.FC<NavBarProps> = ({ onScrollListenerRegistered, children }:
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []); // Empty dependency array. Will only run on initialization.
+  }, [onScrollListenerRegistered]); // Will only run on initialization.
 
   return (
     <nav ref={navRef} className="px-2 sm:px-4 py-2.5 fixed left-0 right-0 top-0 z-10" style={{
-      transition: 'background-color 0.25s',
+      transition: 'background-color 0.25s', // Fade transition background color.
     }}>
       <div className="container flex flex-wrap items-center justify-between mx-auto">
+        {/* Logo link to homepage */}
         <Link href="/" className="flex items-center">
           <Image src="/logo-nav.svg" className="h-6 mr-3 sm:h-9" alt="Classr Logo" height={36} width={36} />
         </Link>
@@ -68,4 +90,4 @@ const NavBar: React.FC<NavBarProps> = ({ onScrollListenerRegistered, children }:
   )
 };
 
-export default NavBar;
+export default Navbar;

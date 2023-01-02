@@ -8,7 +8,7 @@ import Favicon from "../components/favicon";
 import FileUpload from "../components/fileUpload";
 import Footer from "../components/footer";
 import GitHubRibbon from "../components/gitHubRibbon";
-import NavBar from "../components/navbar";
+import Navbar from "../components/navbar";
 import NavItem from "../components/navItem";
 import Spinner from "../components/spinner";
 import { getAbsoluteTop } from "../utils/spatial";
@@ -45,7 +45,7 @@ const App: NextPage = () => {
         <Favicon />
       </Head>
       <header>
-        <NavBar onScrollListenerRegistered={(offsetHeight) => setNavbarHeight(offsetHeight)}>
+        <Navbar onScrollListenerRegistered={(offsetHeight) => setNavbarHeight(offsetHeight)}>
           <>
             <NavItem text="Home" href="/" />
             <NavItem text="My Classifiers" onClick={() => window.scrollTo({
@@ -56,9 +56,9 @@ const App: NextPage = () => {
               top: getAbsoluteTop(newClassifierRef.current) - navbarHeight,
               behavior: "smooth",
             })} />
-            <NavItem text="Sign out" onClick={() => signOut()} />
+            <NavItem text="Sign out" onClick={() => signOut({ callbackUrl: '/' })} />
           </>
-        </NavBar>
+        </Navbar>
       </header>
       <main className="flex min-h-screen flex-col bg-neutral-900">
         <section

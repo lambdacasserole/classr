@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="256"
+   height="256"
+   viewBox="0 0 67.733333 67.733332"
+   version="1.1"
+   id="svg5218"
+   inkscape:version="1.0.2 (1.0.2+r75+1)"
+   sodipodi:docname="bitbucket.svg">
+  <defs
+     id="defs5212">
+    <linearGradient
+       x1="225.9346"
+       y1="114.21665"
+       x2="116.48194"
+       y2="229.43639"
+       id="linearGradient-1"
+       gradientTransform="scale(1.1613784,0.86104578)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#0052CC"
+         offset="18%"
+         id="stop5838" />
+      <stop
+         stop-color="#2684FF"
+         offset="100%"
+         id="stop5840" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="220.21352"
+     inkscape:cy="167.58997"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="0"
+     inkscape:window-y="34"
+     inkscape:window-maximized="1"
+     units="px" />
+  <metadata
+     id="metadata5215">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-38.015718,-0.01020037)">
+    <g
+       fill="none"
+       id="g5851"
+       transform="matrix(0.26458333,0,0,0.26458333,38.015718,3.4235177)">
+      <polygon
+         points="101.27209,152.56128 154.72071,152.56128 167.62211,77.241726 87.060078,77.241726 "
+         id="polygon5845" />
+      <path
+         d="M 8.3081307,6.8349821e-4 C 5.8850297,-0.03056855 3.5721266,1.0112567 1.9898564,2.8466901 0.40758625,4.6821235 -0.282086,7.1232857 0.10584392,9.5153361 L 34.924551,220.88827 c 0.895485,5.33926 5.495395,9.26474 10.909042,9.30959 H 212.87316 c 4.06336,0.0523 7.55243,-2.87853 8.20229,-6.88992 L 255.89416,9.5563476 C 256.28209,7.1642971 255.59241,4.723135 254.01014,2.8877015 252.42787,1.0522681 250.11497,0.01044289 247.69187,0.04169493 Z M 154.92401,152.76827 H 101.60914 L 87.173118,77.348247 h 80.669492 z"
+         fill="#2684ff"
+         id="path5847" />
+      <path
+         d="m 244.61082,77.241725 h -76.91704 l -12.9083,75.359855 H 101.51315 L 38.610824,227.2648 c 1.993725,1.72399 4.535637,2.68265 7.171275,2.7046 H 212.72938 c 4.06011,0.0522 7.54641,-2.87624 8.19575,-6.88443 z"
+         fill="url(#linearGradient-1)"
+         id="path5849"
+         style="fill:url(#linearGradient-1)" />
+    </g>
+  </g>
+</svg>

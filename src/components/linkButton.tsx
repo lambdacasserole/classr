@@ -24,6 +24,11 @@ export interface LinkButtonProps {
   disabled?: boolean;
 
   /**
+   * Any additional CSS classes to add to the component.
+   */
+  className?: string;
+
+  /**
    * The link to associate with the button.
    */
   href: string;
@@ -32,12 +37,12 @@ export interface LinkButtonProps {
 /**
  * Represents a link button.
  */
-const LinkButton: React.FC<LinkButtonProps> = ({ text, disabled, href }: LinkButtonProps) => {
+const LinkButton: React.FC<LinkButtonProps> = ({ text, disabled, className, href }: LinkButtonProps) => {
   return (
     <Link
-      className={'py-2.5 px-5 mr-2 mb-2 text-sm font-medium '
+      className={['py-2.5 px-5 mr-2 mb-2 text-sm font-medium '
         + ` ${disabled ? 'text-neutral-500 border-neutral-500' : 'text-neutral-100 border-neutral-100'}`
-        + ' focus:outline-none rounded-lg border focus:z-10'}
+        + ' focus:outline-none rounded-lg border focus:z-10', className].join(' ')}
       href={disabled ? 'javascript:void' : href}
       role="button">
       {text}

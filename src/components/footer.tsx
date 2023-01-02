@@ -1,7 +1,7 @@
 /**
  * Contains the {@link Footer} component.
  *
- * @since 01/01/2022
+ * @since 01/01/2023
  * @author Saul Johnson <saul.a.johnson@gmail.com>
  */
 
@@ -43,19 +43,20 @@ const Footer: React.FC = () => {
                 </p>
                 {/* Stack icons */}
                 <p className="mt-2">
-                    <StackIcon src="/images/t3.svg" alt="create-t3-app" />
-                    <StackIcon src="/images/typescript.svg" alt="TypeScript" />
-                    <StackIcon src="/images/tailwind.svg" alt="Tailwind CSS" />
-                    <StackIcon src="/images/prisma.svg" alt="Prisma ORM" />
-                    <StackIcon src="/images/nextjs.svg" alt="Next.js" />
-                    <StackIcon src="/images/trpc.svg" alt="tRPC" />
+                    <StackIcon src="/images/t3.svg" alt="create-t3-app" href="https://create.t3.gg/" />
+                    <StackIcon src="/images/typescript.svg" alt="TypeScript" href="https://www.typescriptlang.org/" />
+                    <StackIcon src="/images/tailwind.svg" alt="Tailwind CSS" href="https://tailwindcss.com/" />
+                    <StackIcon src="/images/prisma.svg" alt="Prisma ORM" href="https://www.prisma.io/" />
+                    <StackIcon src="/images/nextjs.svg" alt="Next.js" href="https://nextjs.org/" />
+                    <StackIcon src="/images/trpc.svg" alt="tRPC" href="https://trpc.io/" />
+                    <StackIcon src="/images/nextauth.svg" alt="NextAuth.js" href="https://authjs.dev/" />
                 </p>
             </div>
             {/* Limitations column */}
             <div className="col-span-1 p-3">
                 <h3 className="text-lg mb-3">🚧 Limitations</h3>
                 <p className="text-neutral-400 text-sm">
-                    Classr does not support any of the following features yet:
+                    Classr does not support any of the following features (yet!):
                 </p>
                 <ul className="text-neutral-400 list-disc mt-2 text-sm">
                     <li>Training on n-grams.</li>

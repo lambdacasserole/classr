@@ -1,3 +1,14 @@
+/**
+ * Contains the {@link Spinner} component.
+ *
+ * @since 02/01/2023
+ * @author Saul Johnson <saul.a.johnson@gmail.com>
+ */
+
+
+/**
+ * Represents a spinner.
+ */
 const Spinner: React.FC = () => {
     return (
         <div role="status">
