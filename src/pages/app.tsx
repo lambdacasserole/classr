@@ -42,13 +42,17 @@ const App: NextPage = () => {
   // Maintains a handle to the user's session.
   const { data: sessionData } = useSession();
 
-  // Queries for list/add classifier.
+  // Queries and mutations for list/add/delete classifier.
   const listClassifiersQuery = trpc.classifier.list.useQuery(undefined, {
     onSettled: () => setIsLoading(false),
   });
   const addClassifierMutation = trpc.classifier.train.useMutation({
     onMutate: () => setIsLoading(true),
     onSettled: () => listClassifiersQuery.refetch(), // Reload all classifers on add.
+  });
+  const deleteMutation = trpc.classifier.delete.useMutation({
+      onMutate: () => setIsLoading(true),
+      onSettled: () => listClassifiersQuery.refetch(), // Reload all classifers on delete.
   });
 
   return (
@@ -122,9 +126,8 @@ const App: NextPage = () => {
                   listClassifiersQuery.data?.map((classifier, i) => <ClassifierTile
                     key={i}
                     classifier={classifier}
-                    onDelete={() => {
-                      setIsLoading(true);
-                      listClassifiersQuery.refetch();
+                    onDelete={(classifier) => {
+                      deleteMutation.mutate({ classifierUuid: classifier.uuid });
                     }} />) :
                   // No classifiers tile.
                   <div

@@ -5,7 +5,7 @@
  * @author Saul Johnson <saul.a.johnson@gmail.com>
  */
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import type { Classifier } from "@prisma/client";
 
@@ -29,7 +29,7 @@ export interface classifierTileProps {
     /**
      * Raised when the classifier is deleted.
      */
-    onDelete?: () => void;
+    onDelete?: (classifier: Classifier) => void;
 }
 
 
@@ -37,9 +37,6 @@ export interface classifierTileProps {
  * Represents a classifier tile component.
  */
 const ClassifierTile: React.FC<classifierTileProps> = ({ classifier, onDelete }: classifierTileProps) => {
-
-    // Retain this handle to the tile root component to hide it right away on delete.
-    const rootComponentRef = useRef<HTMLDivElement>(null);
 
     // Hold testing document in state.
     const [testDocument, setTestDocument] = useState('');
@@ -53,20 +50,9 @@ const ClassifierTile: React.FC<classifierTileProps> = ({ classifier, onDelete }:
         classifierUuid: classifier.uuid,
         document: testDocument,
     }, { enabled: false });
-    const deleteMutation = trpc.classifier.delete.useMutation({ // Mutation for classifier deletion.
-        onMutate: () => {
-            if (rootComponentRef.current) {
-                rootComponentRef.current.style.display = 'none'; // Hide tile immediately.
-                if (onDelete) {
-                    onDelete(); // Raise event.
-                }
-            }
-        }
-    });
 
     return (
         <div
-            ref={rootComponentRef}
             className="p-6 mb-6 rounded-lg bg-neutral-800 text-white grid lg:grid-cols-2 md:grid-cols-1 text-left border border-neutral-700 position-relative">
             <div className="md:col-span-1 lg:col-span-2 mb-6">
                 <h2 className="text-xl">{classifier.name.length ? classifier.name : classifier.uuid}</h2>
@@ -120,8 +106,8 @@ const ClassifierTile: React.FC<classifierTileProps> = ({ classifier, onDelete }:
                     <ActionButton
                         className={`${isDeleteButtonWarm ? 'border-neutral-900 text-neutral-900 bg-red-500' : 'border-red-500 text-red-500'} w-full`}
                         onClick={() => {
-                            if (isDeleteButtonWarm) { // Delete button must be clicked twice.
-                                deleteMutation.mutate({ classifierUuid: classifier.uuid });
+                            if (isDeleteButtonWarm && onDelete) { // Delete button must be clicked twice.
+                                onDelete(classifier);
                             } else {
                                 setIsDeleteButtonWarm(true); // Confirm delete, time out after 5s.
                                 setTimeout(() => setIsDeleteButtonWarm(false), 5000);
