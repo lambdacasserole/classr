@@ -31,7 +31,6 @@ import Spinner from "../components/spinner";
 const App: NextPage = () => {
 
     // Loading state and reference to loading tile.
-    const [isLoading, setIsLoading] = useState(true);
     const loadingTile = useRef<HTMLDivElement>(null);
 
     // Maintain these references to allow smooth scrolling to sections.
@@ -44,27 +43,14 @@ const App: NextPage = () => {
 
     // Queries and mutations for list/add/delete classifier.
     const listClassifiersQuery = trpc.classifier.list.useQuery(undefined, {
-        enabled: false,
+        refetchOnWindowFocus: false,
     });
     const addClassifierMutation = trpc.classifier.train.useMutation({
-        onMutate: () => setIsLoading(true),
-        onSettled: () => listClassifiersQuery // Reload all classifers on add.
-            .refetch()
-            .then(() => setIsLoading(false)),
+        onSuccess: () => listClassifiersQuery.refetch(),
     });
     const deleteMutation = trpc.classifier.delete.useMutation({
-        onMutate: () => setIsLoading(true),
-        onSettled: () => listClassifiersQuery // Reload all classifers on delete.
-            .refetch()
-            .then(() => setIsLoading(false)),
+        onSuccess: () => listClassifiersQuery.refetch(),
     });
-
-    useEffect(() => {
-        listClassifiersQuery
-            .refetch()
-            .then(() => setIsLoading(false))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     return (
         <>
@@ -126,7 +112,9 @@ const App: NextPage = () => {
                     className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover rounded-lg grid lg:grid-cols-6 md:grid-cols-1 gap-4">
                     <div className="col-span-1"></div>
                     <div className="lg:col-span-4 md:col-span-1">
-                        {isLoading ?
+                        {listClassifiersQuery.isFetching
+                            || addClassifierMutation.isLoading // TODO: No need to reload entire page, just add another tile.
+                            || deleteMutation.isLoading ? // TODO: No need to reload entire page, just fire query and hide tile.
                             // Loading tile.
                             <div ref={loadingTile} className="p-6 mb-6 rounded-lg bg-neutral-800 text-white border border-neutral-700">
                                 <Spinner />
