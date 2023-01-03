@@ -3,6 +3,8 @@ import { randomUUID } from 'crypto';
 import bayes from 'bayes';
 import z from 'zod';
 
+import { env } from '../../../env/server.mjs';
+
 import { router, protectedProcedure } from "../trpc";
 import {
     base64EncodedCsvToDocuments,
@@ -80,7 +82,7 @@ export const classifierRouter = router({
         }) => {
 
             // Check that we haven't gone over the limit for number of classifiers.
-            const classifierCountLimit = parseInt(process.env.CLASSIFIER_UPPER_LIMIT ?? '100', 10);
+            const classifierCountLimit = env.CLASSIFIER_UPPER_LIMIT ?? 100;
             const existingClassifierCount = await ctx.prisma.classifier.count({
                 where: {
                     userId: ctx.session.user.id,
