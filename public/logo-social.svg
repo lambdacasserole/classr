@@ -13,7 +13,10 @@
    version="1.1"
    id="svg1629"
    sodipodi:docname="logo-social.svg"
-   inkscape:version="1.0.2 (1.0.2+r75+1)">
+   inkscape:version="1.0.2 (1.0.2+r75+1)"
+   inkscape:export-filename="/home/saul/Documents/git/classr/public/logo-social.png"
+   inkscape:export-xdpi="192"
+   inkscape:export-ydpi="192">
   <defs
      id="defs1623" />
   <sodipodi:namedview
@@ -32,7 +35,7 @@
      showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1018"
-     inkscape:window-x="0"
+     inkscape:window-x="1920"
      inkscape:window-y="34"
      inkscape:window-maximized="1"
      units="px">

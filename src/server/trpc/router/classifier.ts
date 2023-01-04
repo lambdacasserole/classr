@@ -1,3 +1,10 @@
+/**
+ * Contains server-side tRPC functions for classifier management.
+ *
+ * @since 04/01/2023
+ * @author Saul Johnson <saul.a.johnson@gmail.com>
+ */
+
 import { randomUUID } from 'crypto';
 
 import bayes from 'bayes';
@@ -6,6 +13,8 @@ import z from 'zod';
 import { env } from '../../../env/server.mjs';
 
 import { router, protectedProcedure } from "../trpc";
+
+import type { Document } from '../../../utils/ml';
 import {
     base64EncodedCsvToDocuments,
     computeMacroF1Score,
@@ -99,7 +108,13 @@ export const classifierRouter = router({
             }
 
             // Translate base64-encoded CSV to document set.
-            const documents = await base64EncodedCsvToDocuments(csvData);
+            let documents: Document[];
+            try {
+                documents = await base64EncodedCsvToDocuments(csvData);
+            } catch (e) {
+                throw new Error('CSV data could not be parsed. Check that you\'re using commas as delimiters and'
+                    + ' quoting/escaping appropriately.');
+            }
 
             // Initialize a fresh confusion matrix for this model.
             const confusionMatrix = initializeConfusionMatrix(documents);

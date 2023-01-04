@@ -5,13 +5,15 @@
  * @author Saul Johnson <saul.a.johnson@gmail.com>
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 
 import { signOut, useSession } from "next-auth/react";
+
+import { toast } from 'react-toastify';
 
 import { getAbsoluteTop } from "../utils/spatial";
 import { trpc } from "../utils/trpc";
@@ -44,12 +46,21 @@ const App: NextPage = () => {
     // Queries and mutations for list/add/delete classifier.
     const listClassifiersQuery = trpc.classifier.list.useQuery(undefined, {
         refetchOnWindowFocus: false,
+        onError: () => toast.error("Error retrieving classifiers, ensure you're logged in and refresh the page to try"
+            + " again."),
     });
     const addClassifierMutation = trpc.classifier.train.useMutation({
-        onSuccess: () => listClassifiersQuery.refetch(),
+        onSuccess: () => {
+            toast.success("CSV file uploaded successfully! You can now access your trained model!");
+            listClassifiersQuery.refetch();
+        },
+        onError: (error) => toast.error(error.message),
     });
     const deleteMutation = trpc.classifier.delete.useMutation({
-        onSuccess: () => listClassifiersQuery.refetch(),
+        onSuccess: () => {
+            toast.success("Model successfully deleted.");
+            listClassifiersQuery.refetch();
+        },
     });
 
     return (

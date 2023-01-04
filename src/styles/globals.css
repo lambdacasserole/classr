@@ -9,6 +9,9 @@
 @import url('../../public/fonts/comfortaa/stylesheet.css');
 
 
+/* Additional libraries */
+@import url('../../node_modules/react-toastify/dist/ReactToastify.min.css');
+
 /* Headings */
 
 h2.text-xl {
