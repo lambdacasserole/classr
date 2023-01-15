@@ -138,6 +138,12 @@ const ClassifierTile: React.FC<classifierTileProps> = ({ classifier, onDelete }:
                 <div className="w-full bg-neutral-600 h-2">
                     <div className="bg-red-600 h-2" style={{ width: `${Math.round(classifier.recall * 100)}%` }}></div>
                 </div>
+                <div className="mt-6 mb-3">
+                    Macro F1 score ({Math.round(classifier.f1Score * 100) / 100})
+                </div>
+                <div className="w-full bg-neutral-600 h-2">
+                    <div className="bg-yellow-600 h-2" style={{ width: `${Math.round(classifier.f1Score * 100)}%` }}></div>
+                </div>
             </div>
         </div>
     );
