@@ -19,7 +19,6 @@ import { trpc } from "../utils/trpc";
 
 import Jumbotron from "../components/jumbotron";
 import ClassifierTile from "../components/classifierTile";
-import Favicon from "../components/favicon";
 import FileUpload from "../components/fileUpload";
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
@@ -73,8 +72,6 @@ const App: NextPage = () => {
             {/* Injected into document head */}
             <Head>
                 <title>Classr &middot; My classifiers ({sessionData?.user?.name})</title>
-                <meta name="description" content="Train and use microclassifiers in the cloud" />
-                <Favicon />
             </Head>
             {/* Header section */}
             <header>

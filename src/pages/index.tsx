@@ -19,7 +19,6 @@ import Jumbotron from "../components/jumbotron";
 import StaticImageCard from "../components/staticImageCard";
 import AnimatedImageCard from "../components/animatedImageCard";
 import NavItem from "../components/navItem";
-import Favicon from "../components/favicon";
 import ActionButton from "../components/actionButton";
 import LinkButton from "../components/linkButton";
 import GitHubRibbon from "../components/gitHubRibbon";
@@ -45,8 +44,6 @@ const Home: NextPage = () => {
             {/* Injected into document head */}
             <Head>
                 <title>Classr &middot; Train and use microclassifiers in the cloud</title>
-                <meta name="description" content="Train and use microclassifiers in the cloud" />
-                <Favicon />
             </Head>
             {/* Header section */}
             <header>

@@ -10,6 +10,8 @@ import { env } from "../env/client.mjs";
 import { trpc } from "../utils/trpc";
 
 import "../styles/globals.css";
+
+import Favicon from "../components/favicon";
 import PlausibleAnalytics from "../components/plausibleAnalytics";
 import KofiDonateButton from "../components/kofiDonateButton";
 
@@ -24,6 +26,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
         {env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN
           && env.NEXT_PUBLIC_PLAUSIBLE_HOST
           && <PlausibleAnalytics domain={env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN} host={env.NEXT_PUBLIC_PLAUSIBLE_HOST} />}
+        <meta name="title" property="og:title" content="Classr - Train and use microclassifiers in the cloud" />
+        <meta name="description" content="Train microclassifiers in the cloud for spam detection, sentiment analysis and more. Query your trained microclassifiers using a simple REST API or use the Classr SDKs for Python and Node.js!" />
+        <meta name="image" property="og:image" content="/logo-social.png" />
+        <meta name="author" content="Saul Johnson" />
+        <Favicon />
       </Head>
       <SessionProvider session={session}>
         <Component {...pageProps} />
