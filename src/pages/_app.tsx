@@ -29,6 +29,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta name="title" property="og:title" content="Classr - Train and use microclassifiers in the cloud" />
         <meta name="description" content="Train microclassifiers in the cloud for spam detection, sentiment analysis and more. Query your trained microclassifiers using a simple REST API or use the Classr SDKs for Python and Node.js!" />
         <meta name="image" property="og:image" content="/logo-social.png" />
+        <meta property="og:type" content="website" />
         <meta name="author" content="Saul Johnson" />
         <Favicon />
       </Head>
