@@ -27,7 +27,9 @@ export interface PlausibleAnalyticsProps {
  * Represents a connection to a Plausible anlaytics server.
  */
 const PlausibleAnalytics: React.FC<PlausibleAnalyticsProps> = ({ host, domain }: PlausibleAnalyticsProps) => {
-    return <script defer data-domain={domain} src={`https://${host}/js/plausible.js`}></script>;
+    return (
+        <script defer data-domain={domain} src={`https://${host}/js/plausible.js`}></script>
+    );
 }
 
 export default PlausibleAnalytics;
