@@ -17,20 +17,52 @@ import ActionButton from './actionButton';
  */
 export interface JumbotronProps {
 
-	/**
-	 * The click event handler to associate with the jumbotron button.
-	 */
-    onButtonClick: MouseEventHandler<HTMLButtonElement>,
+    /**
+     * The click event handler to associate with the jumbotron button.
+     */
+    onButtonClick?: MouseEventHandler<HTMLButtonElement>,
+
+    /**
+     * The URL of the image to display as the logo in the jumbotron.
+     */
+    imageSrc: string,
+
+    /**
+     * The alt text of the image to display as the logo in the jumbotron.
+     */
+    imageAlt: string,
+
+    /**
+     * Any additional CSS classes to add to the component.
+     */
+    className?: string,
+
+    /**
+     * The subtitle to display in the jumbotron.
+     */
+    subtitle: string,
+
+    /**
+     * Whether or not to show the button in the jumbotron.
+     */
+    showButton?: boolean,
 }
 
 
 /**
  * Represents a jumbotron.
  */
-const Jumbotron: React.FC<JumbotronProps> = ({ onButtonClick }: JumbotronProps) => {
+const Jumbotron: React.FC<JumbotronProps> = ({
+    onButtonClick,
+    imageSrc,
+    imageAlt,
+    className,
+    subtitle,
+    showButton,
+}: JumbotronProps) => {
     return (
         <section
-            className="p-12 min-h-screen text-center relative overflow-hidden bg-no-repeat bg-cover bg-fixed rounded-lg"
+            className={["p-12 text-center relative overflow-hidden bg-no-repeat bg-cover bg-fixed rounded-lg", className].join(' ')}
             style={{
                 backgroundImage: "url('/images/hero-wisps.png')",
             }}>
@@ -42,15 +74,15 @@ const Jumbotron: React.FC<JumbotronProps> = ({ onButtonClick }: JumbotronProps) 
                 <div className="flex justify-center items-center h-full px-6">
                     <div className="text-white">
                         <Image
-                            src="/logo-hero.svg"
+                            src={imageSrc}
                             className="mx-auto mb-4"
                             width={512}
                             height={100}
-                            alt="Classr Logo" />
+                            alt={imageAlt} />
                         <h4 className="text-lg mb-6">
-                            Train microclassifiers in the cloud for spam detection, sentiment analysis and more.
+                            {subtitle}
                         </h4>
-                        <ActionButton text="Get started" onClick={onButtonClick} />
+                        {showButton && <ActionButton text="Get started" onClick={onButtonClick} />}
                     </div>
                 </div>
             </div>

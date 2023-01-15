@@ -32,7 +32,7 @@ export interface ActionButtonProps {
     /**
      * The event handler for when the action button is clicked.
      */
-    onClick: MouseEventHandler<HTMLButtonElement>;
+    onClick?: MouseEventHandler<HTMLButtonElement>;
 
     /**
      * The icon to display in the button.

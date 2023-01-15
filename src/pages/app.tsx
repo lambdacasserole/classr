@@ -9,7 +9,6 @@ import { useRef, useState } from "react";
 
 import { type NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 
 import { signOut, useSession } from "next-auth/react";
 
@@ -18,6 +17,7 @@ import { toast } from 'react-toastify';
 import { getAbsoluteTop } from "../utils/spatial";
 import { trpc } from "../utils/trpc";
 
+import Jumbotron from "../components/jumbotron";
 import ClassifierTile from "../components/classifierTile";
 import Favicon from "../components/favicon";
 import FileUpload from "../components/fileUpload";
@@ -32,6 +32,9 @@ import Spinner from "../components/spinner";
  */
 const App: NextPage = () => {
 
+    // Required to make use of query invalidation.
+    const utils = trpc.useContext();
+
     // Loading state and reference to loading tile.
     const loadingTile = useRef<HTMLDivElement>(null);
 
@@ -45,23 +48,25 @@ const App: NextPage = () => {
 
     // Queries and mutations for list/add/delete classifier.
     const listClassifiersQuery = trpc.classifier.list.useQuery(undefined, {
-        refetchOnWindowFocus: false,
         onError: () => toast.error("Error retrieving classifiers, ensure you're logged in and refresh the page to try"
             + " again."),
     });
     const addClassifierMutation = trpc.classifier.train.useMutation({
         onSuccess: () => {
             toast.success("CSV file uploaded successfully! You can now access your trained model!");
-            listClassifiersQuery.refetch();
+            utils.classifier.list.invalidate(); // Invalidate query on add.
         },
         onError: (error) => toast.error(error.message),
     });
     const deleteMutation = trpc.classifier.delete.useMutation({
         onSuccess: () => {
             toast.success("Model successfully deleted.");
-            listClassifiersQuery.refetch();
+            utils.classifier.list.invalidate(); // Invalidate query on delete.
         },
     });
+    const isFetchingOrMutating = listClassifiersQuery.isFetching
+        || addClassifierMutation.isLoading
+        || deleteMutation.isLoading; // TODO: No need to reload entire page, just fire query and hide tile.
 
     return (
         <>
@@ -91,41 +96,15 @@ const App: NextPage = () => {
             </header>
             <main className="flex min-h-screen flex-col bg-neutral-900">
                 {/* Jumbotron */}
-                <section
-                    className="p-12 h-100 text-center relative overflow-hidden bg-no-repeat bg-cover bg-fixed rounded-lg"
-                    style={{
-                        backgroundImage: "url('/images/hero-wisps.png')",
-                        height: "400px",
-                    }}>
-                    <div
-                        className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed"
-                        style={{
-                            backgroundColor: "rgba(0, 0, 0, 0.6)",
-                        }}>
-                        <div className="flex justify-center items-center h-full px-6">
-                            <div className="text-white">
-                                <Image
-                                    src="/logo-app.svg"
-                                    className="mx-auto mb-4"
-                                    width={640}
-                                    height={100}
-                                    alt="Classr Logo" />
-                                <h4 className="text-lg mb-6">
-                                    Hey {sessionData?.user?.name}! You can manage, inspect and test your microclassifiers below.
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <Jumbotron imageSrc="/logo-app.svg" imageAlt="Classr Logo" className="h-96" showButton={false}
+                    subtitle={`Hey ${sessionData?.user?.name}! You can manage, inspect and test your microclassifiers below.`} />
                 {/* Classifiers section */}
                 <section
                     ref={myClassifiersRef}
                     className="p-12 text-center relative overflow-hidden bg-no-repeat bg-cover rounded-lg grid lg:grid-cols-6 md:grid-cols-1 gap-4">
                     <div className="col-span-1"></div>
                     <div className="lg:col-span-4 md:col-span-1">
-                        {listClassifiersQuery.isFetching
-                            || addClassifierMutation.isLoading // TODO: No need to reload entire page, just add another tile.
-                            || deleteMutation.isLoading ? // TODO: No need to reload entire page, just fire query and hide tile.
+                        {listClassifiersQuery.isLoading ?
                             // Loading tile.
                             <div ref={loadingTile} className="p-6 mb-6 rounded-lg bg-neutral-800 text-white border border-neutral-700">
                                 <Spinner />
@@ -144,6 +123,11 @@ const App: NextPage = () => {
                                         ref={loadingTile}
                                         className="p-6 mb-6 rounded-lg bg-neutral-800 text-neutral-400 text-white border border-neutral-700">
                                         You have no microclassifiers yet!
+                                    </div>}
+                                {isFetchingOrMutating && // TODO: No need to reload entire page, just fire query and hide tile.
+                                    // Loading tile.
+                                    <div ref={loadingTile} className="p-6 mb-6 rounded-lg bg-neutral-800 text-white border border-neutral-700">
+                                        <Spinner />
                                     </div>}
                                 {/* New classifier upload. */}
                                 <div ref={newClassifierRef} className="p-6 mb-6">

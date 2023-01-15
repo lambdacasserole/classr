@@ -3,6 +3,7 @@ import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
 import { ToastContainer } from "react-toastify";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { trpc } from "../utils/trpc";
 
@@ -16,6 +17,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <>
       <SessionProvider session={session}>
         <Component {...pageProps} />
+        <ReactQueryDevtools />
       </SessionProvider>
       {/* Toast container */}
       <ToastContainer

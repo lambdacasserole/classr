@@ -83,10 +83,13 @@ const Home: NextPage = () => {
             </header>
             <main className="flex min-h-screen flex-col bg-neutral-900">
                 {/* Jumbotron */}
-                <Jumbotron onButtonClick={() => window.scrollTo({
-                    top: getAbsoluteTop(quickstartSection.current) - navbarHeight,
-                    behavior: "smooth", // Smooth scroll to quickstart section.
-                })} />
+                <Jumbotron imageSrc="/logo-hero.svg" imageAlt="Classr Logo" className="min-h-screen"
+                    showButton={true}
+                    subtitle="Train microclassifiers in the cloud for spam detection, sentiment analysis and more."
+                    onButtonClick={() => window.scrollTo({
+                        top: getAbsoluteTop(quickstartSection.current) - navbarHeight,
+                        behavior: "smooth", // Smooth scroll to quickstart section.
+                    })} />
                 {/* Quickstart section */}
                 <section
                     ref={quickstartSection}
