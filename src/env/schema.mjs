@@ -31,6 +31,8 @@ export const serverSchema = z.object({
  */
 export const clientSchema = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string(),
+  NEXT_PUBLIC_PLAUSIBLE_HOST: z.string().optional(),
+  NEXT_PUBLIC_PLAUSIBLE_DOMAIN: z.string().optional(),
 });
 
 /**

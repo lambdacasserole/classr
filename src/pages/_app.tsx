@@ -5,9 +5,12 @@ import { SessionProvider } from "next-auth/react";
 import { ToastContainer } from "react-toastify";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+import { env } from "../env/client.mjs";
 import { trpc } from "../utils/trpc";
 
 import "../styles/globals.css";
+import PlausibleAnalytics from "../components/plausibleAnalytics";
+import Head from "next/head.js";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -15,6 +18,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <>
+      <Head>
+        {/* Analytics (if configured) */}
+        {env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN
+          && env.NEXT_PUBLIC_PLAUSIBLE_HOST
+          && <PlausibleAnalytics domain={env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN} host={env.NEXT_PUBLIC_PLAUSIBLE_HOST} />}
+      </Head>
       <SessionProvider session={session}>
         <Component {...pageProps} />
         <ReactQueryDevtools />
