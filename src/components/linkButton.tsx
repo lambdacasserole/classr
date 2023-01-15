@@ -6,6 +6,8 @@
  */
 
 import Link from "next/link";
+import Image from "next/image";
+
 
 
 /**
@@ -32,12 +34,17 @@ export interface LinkButtonProps {
    * The link to associate with the button.
    */
   href: string;
+
+  /**
+   * The icon to display in the button.
+   */
+  icon?: string;
 }
 
 /**
  * Represents a link button.
  */
-const LinkButton: React.FC<LinkButtonProps> = ({ text, disabled, className, href }: LinkButtonProps) => {
+const LinkButton: React.FC<LinkButtonProps> = ({ text, disabled, className, href, icon }: LinkButtonProps) => {
   return (
     <Link
       className={['py-2.5 px-5 mr-2 mb-2 text-sm font-medium '
@@ -45,6 +52,16 @@ const LinkButton: React.FC<LinkButtonProps> = ({ text, disabled, className, href
         + ' focus:outline-none rounded-lg border focus:z-10', className].join(' ')}
       href={disabled ? 'javascript:void' : href}
       role="button">
+      {icon ?
+        <Image
+          className="inline-block mr-3"
+          src={icon}
+          style={{
+            marginTop: '-3px',
+          }}
+          alt=""
+          width={16}
+          height={16} /> : <></>}
       {text}
     </Link>
   );

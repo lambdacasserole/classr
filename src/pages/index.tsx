@@ -194,6 +194,17 @@ const Home: NextPage = () => {
                         <pre className="text-mono overflow-scroll bg-neutral-800 text-white p-6 rounded">
                             {"$ curl --header \"Content-Type: application/json\" --request POST --data '{\"document\":\"The text of the unseen document to classify!\"}' https://classr.dev/api/classifier/<classifier-uuid>"}
                         </pre>
+                        <h3 className="text-lg text-white mb-4 mt-4">Or install an SDK!</h3>
+                        <LinkButton
+                            className="inline-block py-5 mr-8"
+                            text="Classr SDK for Node.js"
+                            icon="/images/nodejs.svg"
+                            href="https://www.npmjs.com/package/classr" />
+                        <LinkButton
+                            className="inline-block py-5"
+                            text="Classr SDK for Python"
+                            icon="/images/python.svg"
+                            href="https://pypi.org/project/classr/" />
                     </div>
                     <div className="col-span-1"></div>
                 </section>
