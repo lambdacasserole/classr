@@ -117,7 +117,7 @@ const ClassifierTile: React.FC<classifierTileProps> = ({ classifier, onDelete }:
                 </p>
             </div>
             {/* Confusion matrix and performance information */}
-            <div className="col-span-1 text-left overflow-scroll">
+            <div className="col-span-1 text-left overflow-auto">
                 <h2 className="text-md">Confusion matrix</h2>
                 <ConfusionMatrixDisplay confusionMatrix={classifier.confusionMatrix as ConfusionMatrix} />
                 <div className="mt-6 mb-3">
