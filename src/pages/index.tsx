@@ -184,11 +184,11 @@ const Home: NextPage = () => {
                     <div className="col-span-1"></div>
                     <div className="col-span-1 lg:col-span-2 text-left">
                         <h3 className="text-lg text-white mb-4">Get microclassifier info (GET)</h3>
-                        <pre className="text-mono overflow-scroll bg-neutral-800 text-white p-6 rounded">
+                        <pre className="text-mono overflow-auto bg-neutral-800 text-white p-6 rounded">
                             {"$ curl https://classr.dev/api/classifier/<classifier-uuid>"}
                         </pre>
                         <h3 className="text-lg text-white mb-4 mt-4">Use microclassifier (POST)</h3>
-                        <pre className="text-mono overflow-scroll bg-neutral-800 text-white p-6 rounded">
+                        <pre className="text-mono overflow-auto bg-neutral-800 text-white p-6 rounded">
                             {"$ curl --header \"Content-Type: application/json\" --request POST --data '{\"document\":\"The text of the unseen document to classify!\"}' https://classr.dev/api/classifier/<classifier-uuid>"}
                         </pre>
                         <h3 className="text-lg text-white mb-4 mt-4">Or install an SDK!</h3>
